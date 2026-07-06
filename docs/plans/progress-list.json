@@ -273,40 +273,40 @@
       "id": "phase-5",
       "title": "UI 層（SwiftUI ビュー・スケーリング・ドラッグ）",
       "plan": "docs/plans/06-ui.md",
-      "status": "pending",
+      "status": "completed",
       "tasks": [
         {
           "id": "5.1",
           "title": "ビューモデルと状態束縛（保存タイミング・計時 Timer）",
-          "status": "pending",
+          "status": "completed",
           "verify": "swift build",
           "tests": []
         },
         {
           "id": "5.2",
           "title": "タイマーカード View（編集・黄色・ボタン活性）",
-          "status": "pending",
+          "status": "completed",
           "verify": "swift build",
           "tests": []
         },
         {
           "id": "5.3",
           "title": "リスト・追加パーツ・バージョン表示・空状態",
-          "status": "pending",
+          "status": "completed",
           "verify": "swift build",
           "tests": []
         },
         {
           "id": "5.4",
           "title": "スケーリング（GeometryReader + Environment）",
-          "status": "pending",
+          "status": "completed",
           "verify": "swift run",
           "tests": []
         },
         {
           "id": "5.5",
           "title": "フォント・選択・カーソル",
-          "status": "pending",
+          "status": "completed",
           "verify": "swift run",
           "tests": []
         }

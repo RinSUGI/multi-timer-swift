@@ -3,17 +3,21 @@ import UserNotifications
 import MultiTimerCore
 
 public final class NotificationScheduler: NotificationScheduling {
-    private let center = UNUserNotificationCenter.current()
+    // Lazy so that UNUserNotificationCenter.current() is not called during swift run
+    // (which has no app bundle). Notifications are silently suppressed in that case.
+    private lazy var center: UNUserNotificationCenter? = {
+        guard Bundle.main.bundleIdentifier != nil else { return nil }
+        return UNUserNotificationCenter.current()
+    }()
 
     public init() {}
 
-    // Call at startup to prompt the user for notification permission.
-    // The app continues normally if permission is denied — only the notification is suppressed.
     public func requestAuthorization() {
-        center.requestAuthorization(options: [.alert, .sound]) { _, _ in }
+        center?.requestAuthorization(options: [.alert, .sound]) { _, _ in }
     }
 
     public func scheduleFinish(title: String, body: String) {
+        guard let center else { return }
         let content = UNMutableNotificationContent()
         content.title = title
         content.body = body
