@@ -1,0 +1,444 @@
+{
+  "project": "multi-timer-swift",
+  "description": "Swift ネイティブ版 Multi Timer 実装の進捗管理。docs/plans/ の各プランのステップと単体・ブラックボックステストを追跡する。",
+  "sourceOfTruth": "docs/design-docs/",
+  "planIndex": "docs/plans/README.md",
+  "statusValues": ["pending", "in_progress", "completed", "blocked"],
+  "usage": "各 task の status を進捗に応じて更新する。フェーズの status は配下 task がすべて completed になったら completed にする。tests 配列は、その task で実装・パスさせる単体テスト ID を示す。",
+  "phases": [
+    {
+      "id": "phase-0",
+      "title": "OQ 決定の設計書反映（実装前の先行タスク）",
+      "plan": "docs/plans/01-doc-reconciliation.md",
+      "status": "pending",
+      "tasks": [
+        {
+          "id": "0.1",
+          "title": "保存タイミングを即時保存へ更新（OQ-05）",
+          "status": "pending",
+          "verify": "./scripts/agent-docs-check.sh",
+          "tests": []
+        },
+        {
+          "id": "0.2",
+          "title": "対応 OS 下限を macOS 13 に確定（OQ-01）",
+          "status": "pending",
+          "verify": "./scripts/agent-docs-check.sh",
+          "tests": []
+        },
+        {
+          "id": "0.3",
+          "title": "技術選定の「計時」「ビルド」を採用として書き下す（OQ-06/OQ-07）",
+          "status": "pending",
+          "verify": "./scripts/agent-docs-check.sh",
+          "tests": []
+        },
+        {
+          "id": "0.4",
+          "title": "単体テスト設計への影響確認（保存タイミング変更）",
+          "status": "pending",
+          "verify": "./scripts/agent-docs-check.sh",
+          "tests": []
+        }
+      ]
+    },
+    {
+      "id": "phase-1",
+      "title": "SwiftPM プロジェクト雛形と共有定数",
+      "plan": "docs/plans/02-project-scaffolding.md",
+      "status": "pending",
+      "tasks": [
+        {
+          "id": "1.1",
+          "title": "Package.swift の作成（5 ターゲット・macOS 13）",
+          "status": "pending",
+          "verify": "swift package describe",
+          "tests": []
+        },
+        {
+          "id": "1.2",
+          "title": "ディレクトリと空ファイルの作成（暫定 @main を含む）",
+          "status": "pending",
+          "verify": "swift build",
+          "tests": []
+        },
+        {
+          "id": "1.3",
+          "title": "共有定数 Constants.swift（定数・色・寸法・周波数）",
+          "status": "pending",
+          "verify": "swift build",
+          "tests": []
+        },
+        {
+          "id": "1.4",
+          "title": "バージョン定義の単一化（appVersion = 1.0.4）",
+          "status": "pending",
+          "verify": "swift build",
+          "tests": []
+        }
+      ]
+    },
+    {
+      "id": "phase-2",
+      "title": "Core 純粋ロジックと単体テスト",
+      "plan": "docs/plans/03-core-and-unit-tests.md",
+      "status": "pending",
+      "tasks": [
+        {
+          "id": "2.1",
+          "title": "時刻注入の基盤（Clock プロトコルと実装）",
+          "status": "pending",
+          "verify": "swift build",
+          "tests": []
+        },
+        {
+          "id": "2.2",
+          "title": "時刻変換 TimeConversion（ceil 秒切り上げ）",
+          "status": "pending",
+          "verify": "swift test --filter TimeConversion",
+          "tests": [
+            "TC-Time-01",
+            "TC-Time-02",
+            "TC-Time-03",
+            "TC-Time-04",
+            "TC-Time-05",
+            "TC-Time-06",
+            "TC-Time-07",
+            "TC-Time-08",
+            "TC-Time-09",
+            "TC-Time-10",
+            "TC-Time-11"
+          ]
+        },
+        {
+          "id": "2.3",
+          "title": "セグメントのクランプ SegmentEditing",
+          "status": "pending",
+          "verify": "swift test --filter SegmentEditing",
+          "tests": [
+            "TC-Clamp-01",
+            "TC-Clamp-02",
+            "TC-Clamp-03",
+            "TC-Clamp-04",
+            "TC-Clamp-05",
+            "TC-Clamp-06",
+            "TC-Clamp-07",
+            "TC-Clamp-08",
+            "TC-Clamp-09"
+          ]
+        },
+        {
+          "id": "2.4",
+          "title": "セグメント確定の合成（残り基準・両値更新・黄色解除）",
+          "status": "pending",
+          "verify": "swift test",
+          "tests": ["TC-Edit-01", "TC-Edit-02", "TC-Edit-03", "TC-Edit-04"]
+        },
+        {
+          "id": "2.5",
+          "title": "タイマー状態遷移 TimerModel（遷移・tick・ボタン活性）",
+          "status": "pending",
+          "verify": "swift test --filter TimerModel",
+          "tests": [
+            "TC-State-01",
+            "TC-State-02",
+            "TC-State-03",
+            "TC-State-04",
+            "TC-State-05",
+            "TC-State-06",
+            "TC-State-07",
+            "TC-State-08",
+            "TC-State-09",
+            "TC-State-10",
+            "TC-State-11",
+            "TC-State-12",
+            "TC-State-13",
+            "TC-State-14",
+            "TC-State-15",
+            "TC-State-16"
+          ]
+        },
+        {
+          "id": "2.6",
+          "title": "正規化・パース・移行・採番 TimerNormalization",
+          "status": "pending",
+          "verify": "swift test --filter TimerNormalization",
+          "tests": [
+            "TC-Norm-01",
+            "TC-Norm-02",
+            "TC-Norm-03",
+            "TC-Norm-04",
+            "TC-Norm-05",
+            "TC-Norm-06",
+            "TC-Norm-07",
+            "TC-Norm-08",
+            "TC-Norm-09",
+            "TC-Norm-10",
+            "TC-Norm-11",
+            "TC-Norm-12",
+            "TC-Norm-13",
+            "TC-Norm-14",
+            "TC-Norm-15",
+            "TC-Number-01",
+            "TC-Number-02",
+            "TC-Number-03",
+            "TC-Number-04",
+            "TC-Number-05"
+          ]
+        },
+        {
+          "id": "2.7",
+          "title": "通知タイトル整形と Ports 定義",
+          "status": "pending",
+          "verify": "swift test",
+          "tests": ["TC-Notify-01", "TC-Notify-02", "TC-Notify-03", "TC-Notify-04"]
+        }
+      ]
+    },
+    {
+      "id": "phase-3",
+      "title": "永続化 I/O・直列化・破損対応",
+      "plan": "docs/plans/04-persistence.md",
+      "status": "pending",
+      "tasks": [
+        {
+          "id": "3.1",
+          "title": "TimerStore（actor）の実装（load/save/delete・破損退避）",
+          "status": "pending",
+          "verify": "swift build",
+          "tests": []
+        },
+        {
+          "id": "3.2",
+          "title": "永続化結合テスト（保存・削除・破損・切り詰め）",
+          "status": "pending",
+          "verify": "swift test --filter TimerStore",
+          "tests": [
+            "TC-Persist-01",
+            "TC-Persist-02",
+            "TC-Persist-03",
+            "TC-Persist-04",
+            "TC-Persist-05",
+            "TC-Persist-06",
+            "TC-Persist-07",
+            "TC-Persist-08"
+          ]
+        },
+        {
+          "id": "3.3",
+          "title": "直列化テスト（並行保存でファイルが壊れない）",
+          "status": "pending",
+          "verify": "swift test --filter TimerStore",
+          "tests": ["TC-Persist-09"]
+        }
+      ]
+    },
+    {
+      "id": "phase-4",
+      "title": "Platform 層（通知・チャイム音・ウィンドウ設定）",
+      "plan": "docs/plans/05-platform.md",
+      "status": "pending",
+      "tasks": [
+        {
+          "id": "4.1",
+          "title": "チャイム音源のレンダリング（render-chime.swift → chime.caf）",
+          "status": "pending",
+          "verify": "afplay Sources/MultiTimerApp/Resources/chime.caf",
+          "tests": []
+        },
+        {
+          "id": "4.2",
+          "title": "チャイム再生ラッパ（ChimePlaying 実装・暖機）",
+          "status": "pending",
+          "verify": "swift build",
+          "tests": []
+        },
+        {
+          "id": "4.3",
+          "title": "通知ラッパ（NotificationScheduling・許可要求・一意 ID）",
+          "status": "pending",
+          "verify": "swift build",
+          "tests": []
+        },
+        {
+          "id": "4.4",
+          "title": "ウィンドウ設定（AppKit 併用・背景ドラッグ）",
+          "status": "pending",
+          "verify": "swift build",
+          "tests": []
+        }
+      ]
+    },
+    {
+      "id": "phase-5",
+      "title": "UI 層（SwiftUI ビュー・スケーリング・ドラッグ）",
+      "plan": "docs/plans/06-ui.md",
+      "status": "pending",
+      "tasks": [
+        {
+          "id": "5.1",
+          "title": "ビューモデルと状態束縛（保存タイミング・計時 Timer）",
+          "status": "pending",
+          "verify": "swift build",
+          "tests": []
+        },
+        {
+          "id": "5.2",
+          "title": "タイマーカード View（編集・黄色・ボタン活性）",
+          "status": "pending",
+          "verify": "swift build",
+          "tests": []
+        },
+        {
+          "id": "5.3",
+          "title": "リスト・追加パーツ・バージョン表示・空状態",
+          "status": "pending",
+          "verify": "swift build",
+          "tests": []
+        },
+        {
+          "id": "5.4",
+          "title": "スケーリング（GeometryReader + Environment）",
+          "status": "pending",
+          "verify": "swift run",
+          "tests": []
+        },
+        {
+          "id": "5.5",
+          "title": "フォント・選択・カーソル",
+          "status": "pending",
+          "verify": "swift run",
+          "tests": []
+        }
+      ]
+    },
+    {
+      "id": "phase-6",
+      "title": "アプリ結線・暖機・メニュー・ウィンドウ挙動",
+      "plan": "docs/plans/07-app-assembly.md",
+      "status": "pending",
+      "tasks": [
+        {
+          "id": "6.1",
+          "title": "App エントリと依存の注入（正式 @main）",
+          "status": "pending",
+          "verify": "swift run",
+          "tests": []
+        },
+        {
+          "id": "6.2",
+          "title": "起動時の初期化フロー（load・空状態即保存）",
+          "status": "pending",
+          "verify": "swift run",
+          "tests": []
+        },
+        {
+          "id": "6.3",
+          "title": "暖機（初回遅延対策、NFR-03）",
+          "status": "pending",
+          "verify": "swift build",
+          "tests": []
+        },
+        {
+          "id": "6.4",
+          "title": "メインメニューとウィンドウを閉じたときの挙動（常駐）",
+          "status": "pending",
+          "verify": "swift run",
+          "tests": []
+        },
+        {
+          "id": "6.5",
+          "title": "リソース解放（削除時に計時・デバウンス停止）",
+          "status": "pending",
+          "verify": "swift run",
+          "tests": []
+        }
+      ]
+    },
+    {
+      "id": "phase-7",
+      "title": "ビルド・.app 組み立て・署名・DMG・配布手順書",
+      "plan": "docs/plans/08-packaging.md",
+      "status": "pending",
+      "tasks": [
+        {
+          "id": "7.1",
+          "title": "アイコンと Info.plist テンプレートの用意",
+          "status": "pending",
+          "verify": "plutil -lint Sources/MultiTimerApp/Resources/Info.plist",
+          "tests": []
+        },
+        {
+          "id": "7.2",
+          "title": "ビルド・パッケージングスクリプト（build-app.sh）",
+          "status": "pending",
+          "verify": "./scripts/build-app.sh && ./scripts/agent-docs-check.sh",
+          "tests": []
+        },
+        {
+          "id": "7.3",
+          "title": "配布手順書の整備（docs/インストール手順.md）",
+          "status": "pending",
+          "verify": "./scripts/agent-docs-check.sh",
+          "tests": []
+        },
+        {
+          "id": "7.4",
+          "title": "ブラックボックステストの実施準備（.app 起動確認）",
+          "status": "pending",
+          "verify": "open \"dist/Multi Timer.app\"",
+          "tests": []
+        }
+      ]
+    },
+    {
+      "id": "phase-8",
+      "title": "バックログ整備とブラックボックステスト実施ガイド",
+      "plan": "docs/plans/09-backlog-and-blackbox.md",
+      "status": "pending",
+      "tasks": [
+        {
+          "id": "8.1",
+          "title": "バックログの置き場所を作る（OQ-02/OQ-11）",
+          "status": "pending",
+          "verify": "./scripts/agent-docs-check.sh",
+          "tests": []
+        },
+        {
+          "id": "8.2",
+          "title": "ブラックボックステスト実施ガイド",
+          "status": "pending",
+          "verify": "./scripts/agent-docs-check.sh",
+          "tests": []
+        },
+        {
+          "id": "8.3",
+          "title": "全体の受け入れ確認（swift test 全パス・配布物・BB・非機能）",
+          "status": "pending",
+          "verify": "swift test && ./scripts/build-app.sh",
+          "tests": []
+        }
+      ]
+    }
+  ],
+  "blackboxTests": {
+    "description": "人間が手動実施する。フェーズ 7 で .app を生成した後に実施可能。正本は docs/design-docs/60-testing/blackbox-test-cases.md。",
+    "status": "pending",
+    "cases": [
+      { "id": "BB-01", "title": "起動と初期表示", "status": "pending" },
+      { "id": "BB-02", "title": "セグメント編集", "status": "pending" },
+      { "id": "BB-03", "title": "基本操作・ボタン活性", "status": "pending" },
+      { "id": "BB-04", "title": "終了と黄色表示・通知", "status": "pending" },
+      { "id": "BB-05", "title": "初回終了の遅延回帰", "status": "pending" },
+      { "id": "BB-06", "title": "複数タイマー", "status": "pending" },
+      { "id": "BB-07", "title": "削除", "status": "pending" },
+      { "id": "BB-08", "title": "永続化", "status": "pending" },
+      { "id": "BB-09", "title": "破損耐性", "status": "pending" },
+      { "id": "BB-10", "title": "ウィンドウ・レイアウト", "status": "pending" },
+      { "id": "BB-11", "title": "通知許可", "status": "pending" },
+      { "id": "NF-1", "title": "メモリ（既存版より 1 桁小さい）", "status": "pending" },
+      { "id": "NF-2", "title": "CPU（実用上無視できる）", "status": "pending" },
+      { "id": "NF-3", "title": "起動（体感即時）", "status": "pending" }
+    ]
+  }
+}
