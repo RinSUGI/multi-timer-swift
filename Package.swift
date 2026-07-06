@@ -18,7 +18,8 @@ let package = Package(
         ),
         .executableTarget(
             name: "MultiTimerApp",
-            dependencies: ["MultiTimerCore", "MultiTimerStorage"]
+            dependencies: ["MultiTimerCore", "MultiTimerStorage"],
+            resources: [.process("Resources")]
         ),
         .testTarget(
             name: "MultiTimerCoreTests",

@@ -237,33 +237,33 @@
       "id": "phase-4",
       "title": "Platform 層（通知・チャイム音・ウィンドウ設定）",
       "plan": "docs/plans/05-platform.md",
-      "status": "pending",
+      "status": "completed",
       "tasks": [
         {
           "id": "4.1",
           "title": "チャイム音源のレンダリング（render-chime.swift → chime.caf）",
-          "status": "pending",
+          "status": "completed",
           "verify": "afplay Sources/MultiTimerApp/Resources/chime.caf",
           "tests": []
         },
         {
           "id": "4.2",
           "title": "チャイム再生ラッパ（ChimePlaying 実装・暖機）",
-          "status": "pending",
+          "status": "completed",
           "verify": "swift build",
           "tests": []
         },
         {
           "id": "4.3",
           "title": "通知ラッパ（NotificationScheduling・許可要求・一意 ID）",
-          "status": "pending",
+          "status": "completed",
           "verify": "swift build",
           "tests": []
         },
         {
           "id": "4.4",
           "title": "ウィンドウ設定（AppKit 併用・背景ドラッグ）",
-          "status": "pending",
+          "status": "completed",
           "verify": "swift build",
           "tests": []
         }
