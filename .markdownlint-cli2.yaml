@@ -1,0 +1,30 @@
+globs:
+  - '*.md'
+  - 'docs/**/*.md'
+  - '_misc/**/*.md'
+config:
+  # markdownlint の標準ルールを土台にする。
+  # チームで明示的に緩めたいルールだけ下で上書きし、未知の崩れ方を拾いやすくするため。
+  default: true
+
+  # MD013: line-length
+  # 日本語文書では自然な一文やURL、表、コード例が長くなりやすい。
+  # Prettier の proseWrap: preserve と役割が衝突しやすいため、行長はレビュー判断に寄せる。
+  MD013: false
+
+  # MD024: no-duplicate-heading
+  # 同じ親見出しの下に、同じ名前の子見出しが複数ある状態を防ぐ。
+  # 例: 1つの「## 運用」配下に「### 注意点」が2回出ると、どちらを指すのか分かりにくい。
+  # 一方で、別々の章に同じ小見出しが出るのは自然なので許可する。
+  # 例: 「## 開発環境」配下の「### 注意点」と「## 本番環境」配下の「### 注意点」はOK。
+  MD024:
+    siblings_only: true
+
+  # MD033: no-inline-html
+  # 既存文書にHTMLコメントがあり、今後もMarkdownだけでは表現しにくい注釈や制御に使う可能性がある。
+  # HTMLの使用自体は許可し、内容の妥当性はレビューで確認する。
+  MD033: false
+# TODO Swift向けにignoreを追加する
+ignores:
+  - '_misc/prompts/**'
+  - '_archive/**'

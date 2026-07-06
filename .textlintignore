@@ -1,0 +1,4 @@
+node_modules/**
+dist/**
+_misc/prompts/**
+_archive/**

@@ -1,0 +1,25 @@
+{
+  "name": "multi-timer-swift",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Development tooling for the multi-timer-swift project.",
+  "scripts": {
+    "format": "prettier --write \"**/*.{md,json,yml,yaml}\" && npm run format:shell",
+    "format:check": "prettier --check \"**/*.{md,json,yml,yaml}\" && npm run format:shell:check",
+    "format:shell": "shfmt -w scripts/**/*.sh",
+    "format:shell:check": "shfmt -d scripts/**/*.sh",
+    "lint": "npm run lint:markdown && npm run lint:text && npm run lint:shell",
+    "lint:fix": "npm run format && npm run lint:markdown:fix && npm run lint:text:fix",
+    "lint:markdown": "markdownlint-cli2",
+    "lint:markdown:fix": "markdownlint-cli2 --fix",
+    "lint:shell": "shellcheck scripts/**/*.sh",
+    "lint:text": "textlint \"*.md\" \"docs/**/*.md\" \"_misc/**/*.md\"",
+    "lint:text:fix": "textlint --fix \"*.md\" \"docs/**/*.md\" \"_misc/**/*.md\""
+  },
+  "devDependencies": {
+    "markdownlint-cli2": "^0.22.1",
+    "prettier": "^3.5.3",
+    "textlint": "^15.2.2",
+    "textlint-rule-preset-ja-technical-writing": "^12.0.2"
+  }
+}
