@@ -316,40 +316,40 @@
       "id": "phase-6",
       "title": "アプリ結線・暖機・メニュー・ウィンドウ挙動",
       "plan": "docs/plans/07-app-assembly.md",
-      "status": "pending",
+      "status": "completed",
       "tasks": [
         {
           "id": "6.1",
           "title": "App エントリと依存の注入（正式 @main）",
-          "status": "pending",
+          "status": "completed",
           "verify": "swift run",
           "tests": []
         },
         {
           "id": "6.2",
           "title": "起動時の初期化フロー（load・空状態即保存）",
-          "status": "pending",
+          "status": "completed",
           "verify": "swift run",
           "tests": []
         },
         {
           "id": "6.3",
           "title": "暖機（初回遅延対策、NFR-03）",
-          "status": "pending",
+          "status": "completed",
           "verify": "swift build",
           "tests": []
         },
         {
           "id": "6.4",
           "title": "メインメニューとウィンドウを閉じたときの挙動（常駐）",
-          "status": "pending",
+          "status": "completed",
           "verify": "swift run",
           "tests": []
         },
         {
           "id": "6.5",
           "title": "リソース解放（削除時に計時・デバウンス停止）",
-          "status": "pending",
+          "status": "completed",
           "verify": "swift run",
           "tests": []
         }
