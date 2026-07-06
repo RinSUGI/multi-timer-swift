@@ -51,6 +51,11 @@ public enum Constants {
         public static let thirdHarmonicAmplitude: Double = 0.007
     }
 
+    // MARK: - Notification
+    public enum Notification {
+        public static let body = "設定した時間が経過しました"
+    }
+
     // MARK: - Version
     public static let appVersion = "1.0.4"
 }

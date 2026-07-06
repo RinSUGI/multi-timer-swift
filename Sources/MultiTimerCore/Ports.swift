@@ -1,9 +1,9 @@
 import Foundation
 
 public protocol ChimePlaying {
-    func play()
+    func playChime()
 }
 
 public protocol NotificationScheduling {
-    func schedule(title: String)
+    func scheduleFinish(title: String, body: String)
 }

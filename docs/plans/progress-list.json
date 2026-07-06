@@ -82,19 +82,19 @@
       "id": "phase-2",
       "title": "Core 純粋ロジックと単体テスト",
       "plan": "docs/plans/03-core-and-unit-tests.md",
-      "status": "pending",
+      "status": "completed",
       "tasks": [
         {
           "id": "2.1",
           "title": "時刻注入の基盤（Clock プロトコルと実装）",
-          "status": "pending",
+          "status": "completed",
           "verify": "swift build",
           "tests": []
         },
         {
           "id": "2.2",
           "title": "時刻変換 TimeConversion（ceil 秒切り上げ）",
-          "status": "pending",
+          "status": "completed",
           "verify": "swift test --filter TimeConversion",
           "tests": [
             "TC-Time-01",
@@ -113,7 +113,7 @@
         {
           "id": "2.3",
           "title": "セグメントのクランプ SegmentEditing",
-          "status": "pending",
+          "status": "completed",
           "verify": "swift test --filter SegmentEditing",
           "tests": [
             "TC-Clamp-01",
@@ -130,14 +130,14 @@
         {
           "id": "2.4",
           "title": "セグメント確定の合成（残り基準・両値更新・黄色解除）",
-          "status": "pending",
+          "status": "completed",
           "verify": "swift test",
           "tests": ["TC-Edit-01", "TC-Edit-02", "TC-Edit-03", "TC-Edit-04"]
         },
         {
           "id": "2.5",
           "title": "タイマー状態遷移 TimerModel（遷移・tick・ボタン活性）",
-          "status": "pending",
+          "status": "completed",
           "verify": "swift test --filter TimerModel",
           "tests": [
             "TC-State-01",
@@ -161,7 +161,7 @@
         {
           "id": "2.6",
           "title": "正規化・パース・移行・採番 TimerNormalization",
-          "status": "pending",
+          "status": "completed",
           "verify": "swift test --filter TimerNormalization",
           "tests": [
             "TC-Norm-01",
@@ -189,7 +189,7 @@
         {
           "id": "2.7",
           "title": "通知タイトル整形と Ports 定義",
-          "status": "pending",
+          "status": "completed",
           "verify": "swift test",
           "tests": ["TC-Notify-01", "TC-Notify-02", "TC-Notify-03", "TC-Notify-04"]
         }

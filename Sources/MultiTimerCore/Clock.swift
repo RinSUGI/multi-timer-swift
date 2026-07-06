@@ -1,10 +1,10 @@
 import Foundation
 
 public protocol Clock {
-    var now: Date { get }
+    var now: TimeInterval { get }
 }
 
 public struct SystemClock: Clock {
     public init() {}
-    public var now: Date { Date() }
+    public var now: TimeInterval { Date().timeIntervalSinceReferenceDate }
 }
