@@ -27,7 +27,7 @@ Swift 再実装で用いる UI フレームワーク、計時、音、通知、�
   - 実行開始時に「終了予定時刻（end date）」または「開始時刻と開始時残量」を保持する。残り時間は現在時刻との差から算出する。単純な定量減算にしない。
   - 表示更新は 200〜250ms 程度の周期で行う（既存の 50ms から粗くする。NFR-02）。計時精度は時刻差分で担保されるため、更新頻度を落としても合計はずれない。
   - 周期タイマーは実行中のタイマーにのみ必要。停止中は動かさない。
-- 実装候補: `Timer`（RunLoop）、`DispatchSourceTimer`、または SwiftUI の `TimelineView`。省電力とバックグラウンド挙動を見て選ぶ。
+- 採用確定: モデル層の `Timer`（RunLoop、間隔 200〜250ms、`tolerance` を設定）とする。`TimelineView` はビューが消えると止まるため、終了検知・通知の発火をビューのライフサイクルから独立させる目的でモデル層に置く。実測で問題が出た場合のみ `DispatchSourceTimer` へ切り替える。
 - ウィンドウ非アクティブ時は更新頻度をさらに落とすことを検討する（NFR-02）。
 
 ## 音（チャイム）
@@ -62,7 +62,7 @@ Swift 再実装で用いる UI フレームワーク、計時、音、通知、�
 
 ## ビルド・パッケージング
 
-- Xcode プロジェクト、または Swift Package + xcodebuild でビルドし、Universal な `.app` を生成して DMG 配布する。
+- SwiftPM 主体（Core / App / Tests を 1 パッケージで管理）でビルドし、`.app` バンドル生成はスクリプト（`scripts/build-app.sh`）で行う。Universal な `.app` を生成して DMG 配布する。`.xcodeproj` は使わない。
 - 詳細は [70-packaging/build-and-distribution.md](../70-packaging/build-and-distribution.md) を参照。
 
 ## Open Questions

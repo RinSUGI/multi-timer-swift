@@ -50,7 +50,7 @@
 - まず停止する。
 - `remainingMs = 0`、`configuredMs = 0`、`editingSegment = なし`、`expiredAfterCountdown = false` にする。
 - 表示は `00:00:00`・白になる。
-- 永続化する（`configuredMs = 0` を保存）。既存はタイトル入力と同じ 300ms デバウンス経路である（[30-data/persistence.md](../30-data/persistence.md) を参照）。
+- 永続化する（`configuredMs = 0` を保存）。Swift 版は即時保存する（既存はデバウンス経路だった）。詳細は [30-data/persistence.md](../30-data/persistence.md) を参照。
 
 ### 自動リセット（カウントダウン 0 到達時）
 

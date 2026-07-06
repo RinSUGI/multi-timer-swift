@@ -54,7 +54,7 @@
 1. 3 桁を合成して新しいミリ秒値を得る。
 1. `remainingMs` と `configuredMs` の両方をその値にする（編集は設定時間そのものを決める操作である）。
 1. `expiredAfterCountdown = false` にする（黄色を解除する。[expired-coloring.md](expired-coloring.md) を参照）。
-1. 永続化する（[30-data/persistence.md](../30-data/persistence.md) を参照。タイトルと同じデバウンス経路を通る）。
+1. 永続化する（即時保存。タイトルはデバウンス、確定は即時。[30-data/persistence.md](../30-data/persistence.md) を参照）。
 
 ## キャンセル時の挙動
 

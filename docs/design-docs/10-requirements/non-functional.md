@@ -36,7 +36,7 @@ Swift 版が満たすべき性能・品質・運用上の非機能要件を定�
 
 ## NFR-06 対応 OS
 
-- 対応 OS の下限は実装時に確定する（[Open Questions](#open-questions) を参照）。
+- 対応 OS の下限は macOS 13（Ventura）以上とする（[Open Questions](#open-questions) の OQ-01 を参照）。
 - Apple Silicon と Intel の両方で動作すること（Universal 配布）。
 
 ## NFR-07 テスト容易性

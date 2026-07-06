@@ -10,33 +10,33 @@
       "id": "phase-0",
       "title": "OQ 決定の設計書反映（実装前の先行タスク）",
       "plan": "docs/plans/01-doc-reconciliation.md",
-      "status": "pending",
+      "status": "completed",
       "tasks": [
         {
           "id": "0.1",
           "title": "保存タイミングを即時保存へ更新（OQ-05）",
-          "status": "pending",
+          "status": "completed",
           "verify": "./scripts/agent-docs-check.sh",
           "tests": []
         },
         {
           "id": "0.2",
           "title": "対応 OS 下限を macOS 13 に確定（OQ-01）",
-          "status": "pending",
+          "status": "completed",
           "verify": "./scripts/agent-docs-check.sh",
           "tests": []
         },
         {
           "id": "0.3",
           "title": "技術選定の「計時」「ビルド」を採用として書き下す（OQ-06/OQ-07）",
-          "status": "pending",
+          "status": "completed",
           "verify": "./scripts/agent-docs-check.sh",
           "tests": []
         },
         {
           "id": "0.4",
           "title": "単体テスト設計への影響確認（保存タイミング変更）",
-          "status": "pending",
+          "status": "completed",
           "verify": "./scripts/agent-docs-check.sh",
           "tests": []
         }
