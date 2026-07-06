@@ -199,19 +199,19 @@
       "id": "phase-3",
       "title": "永続化 I/O・直列化・破損対応",
       "plan": "docs/plans/04-persistence.md",
-      "status": "pending",
+      "status": "completed",
       "tasks": [
         {
           "id": "3.1",
           "title": "TimerStore（actor）の実装（load/save/delete・破損退避）",
-          "status": "pending",
+          "status": "completed",
           "verify": "swift build",
           "tests": []
         },
         {
           "id": "3.2",
           "title": "永続化結合テスト（保存・削除・破損・切り詰め）",
-          "status": "pending",
+          "status": "completed",
           "verify": "swift test --filter TimerStore",
           "tests": [
             "TC-Persist-01",
@@ -227,7 +227,7 @@
         {
           "id": "3.3",
           "title": "直列化テスト（並行保存でファイルが壊れない）",
-          "status": "pending",
+          "status": "completed",
           "verify": "swift test --filter TimerStore",
           "tests": ["TC-Persist-09"]
         }
