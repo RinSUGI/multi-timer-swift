@@ -400,14 +400,14 @@
         {
           "id": "8.1",
           "title": "バックログの置き場所を作る（OQ-02/OQ-11）",
-          "status": "pending",
+          "status": "completed",
           "verify": "./scripts/agent-docs-check.sh",
           "tests": []
         },
         {
           "id": "8.2",
           "title": "ブラックボックステスト実施ガイド",
-          "status": "pending",
+          "status": "completed",
           "verify": "./scripts/agent-docs-check.sh",
           "tests": []
         },
