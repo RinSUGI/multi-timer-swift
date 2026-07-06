@@ -59,6 +59,7 @@ playground.xcworkspace
 # App packaging
 *.app
 *.pkg
+dist/
 
 # Environment / secrets
 *.local

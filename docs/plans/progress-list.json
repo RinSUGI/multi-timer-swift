@@ -359,33 +359,33 @@
       "id": "phase-7",
       "title": "ビルド・.app 組み立て・署名・DMG・配布手順書",
       "plan": "docs/plans/08-packaging.md",
-      "status": "pending",
+      "status": "completed",
       "tasks": [
         {
           "id": "7.1",
           "title": "アイコンと Info.plist テンプレートの用意",
-          "status": "pending",
-          "verify": "plutil -lint Sources/MultiTimerApp/Resources/Info.plist",
+          "status": "completed",
+          "verify": "plutil -lint scripts/Info.plist",
           "tests": []
         },
         {
           "id": "7.2",
           "title": "ビルド・パッケージングスクリプト（build-app.sh）",
-          "status": "pending",
+          "status": "completed",
           "verify": "./scripts/build-app.sh && ./scripts/agent-docs-check.sh",
           "tests": []
         },
         {
           "id": "7.3",
           "title": "配布手順書の整備（docs/インストール手順.md）",
-          "status": "pending",
+          "status": "completed",
           "verify": "./scripts/agent-docs-check.sh",
           "tests": []
         },
         {
           "id": "7.4",
           "title": "ブラックボックステストの実施準備（.app 起動確認）",
-          "status": "pending",
+          "status": "completed",
           "verify": "open \"dist/Multi Timer.app\"",
           "tests": []
         }
