@@ -12,6 +12,18 @@ extension EnvironmentValues {
     }
 }
 
+private struct CompactButtonsKey: EnvironmentKey {
+    static let defaultValue: Bool = false
+}
+
+extension EnvironmentValues {
+    /// When true, button rows show icons instead of text labels (narrow window).
+    var compactButtons: Bool {
+        get { self[CompactButtonsKey.self] }
+        set { self[CompactButtonsKey.self] = newValue }
+    }
+}
+
 extension Double {
     func clamped(min lo: Double, max hi: Double) -> Double {
         Swift.max(lo, Swift.min(hi, self))
@@ -27,4 +39,8 @@ enum ScaledSize {
     static func cardPadV(vmin: Double) -> Double    { (vmin * 1.5).clamped(min: 4.0,  max: 12.0) }
     static func buttonPadH(vmin: Double) -> Double  { (vmin * 1.5).clamped(min: 4.0,  max: 12.0) }
     static func buttonPadV(vmin: Double) -> Double  { (vmin * 0.8).clamped(min: 2.0,  max: 8.0) }
+
+    /// Below this window width, button labels are replaced by icons so the
+    /// text cannot wrap and stretch the button height.
+    static let buttonLabelMinWidth: Double = 300.0
 }

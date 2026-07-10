@@ -10,6 +10,7 @@ struct RootView: View {
     var body: some View {
         GeometryReader { geo in
             let computedVmin = min(geo.size.width, geo.size.height) / 100.0
+            let compactButtons = geo.size.width < ScaledSize.buttonLabelMinWidth
             ScrollViewReader { proxy in
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack(spacing: 0) {
@@ -28,6 +29,7 @@ struct RootView: View {
                 }
             }
             .environment(\.vmin, computedVmin)
+            .environment(\.compactButtons, compactButtons)
         }
         .background(Color(hex: Constants.windowBackgroundHex))
         .preferredColorScheme(.dark)

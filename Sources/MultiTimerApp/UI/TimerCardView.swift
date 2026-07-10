@@ -4,6 +4,7 @@ import MultiTimerCore
 struct TimerCardView: View {
     @EnvironmentObject private var vm: TimerListViewModel
     @Environment(\.vmin) private var vmin
+    @Environment(\.compactButtons) private var compactButtons
     let model: TimerModel
 
     var body: some View {
@@ -150,16 +151,20 @@ struct TimerCardView: View {
         let bPV = ScaledSize.buttonPadV(vmin: vmin)
 
         HStack(spacing: padH * 0.5) {
-            timerButton("Start",  color: Color(hex: Constants.Color.startButton),
+            timerButton("Start", icon: "play.fill",
+                        color: Color(hex: Constants.Color.startButton),
                         enabled: model.isStartEnabled, fontSize: fontSize,
                         padH: bPH, padV: bPV) { vm.start(model.id) }
-            timerButton("Stop",   color: Color(hex: Constants.Color.stopButton),
+            timerButton("Stop", icon: "stop.fill",
+                        color: Color(hex: Constants.Color.stopButton),
                         enabled: model.isStopEnabled,  fontSize: fontSize,
                         padH: bPH, padV: bPV) { vm.stop(model.id) }
-            timerButton("Reset",  color: Color(hex: Constants.Color.resetButton),
+            timerButton("Reset", icon: "arrow.counterclockwise",
+                        color: Color(hex: Constants.Color.resetButton),
                         enabled: model.isResetEnabled, fontSize: fontSize,
                         padH: bPH, padV: bPV) { vm.reset(model.id) }
-            timerButton("Clear",  color: Color(hex: Constants.Color.clearButton),
+            timerButton("Clear", icon: "xmark",
+                        color: Color(hex: Constants.Color.clearButton),
                         enabled: model.isClearEnabled, fontSize: fontSize,
                         padH: bPH, padV: bPV) { vm.clear(model.id) }
         }
@@ -168,6 +173,7 @@ struct TimerCardView: View {
     @ViewBuilder
     private func timerButton(
         _ label: String,
+        icon: String,
         color: Color,
         enabled: Bool,
         fontSize: Double,
@@ -175,12 +181,23 @@ struct TimerCardView: View {
         padV: Double,
         action: @escaping () -> Void
     ) -> some View {
-        Button(label, action: action)
+        Button(action: action) {
+            Group {
+                if compactButtons {
+                    Image(systemName: icon)
+                        .accessibilityLabel(label)
+                } else {
+                    Text(label)
+                        .lineLimit(1)
+                }
+            }
             .font(.system(size: fontSize, weight: .medium, design: .rounded))
-            .buttonStyle(ActionButtonStyle(color: color, disabled: !enabled))
-            .padding(.horizontal, padH)
-            .padding(.vertical, padV)
-            .disabled(!enabled)
+            .frame(maxWidth: .infinity)
+        }
+        .buttonStyle(ActionButtonStyle(color: color, disabled: !enabled))
+        .padding(.horizontal, padH)
+        .padding(.vertical, padV)
+        .disabled(!enabled)
     }
 
     // MARK: - Bindings
