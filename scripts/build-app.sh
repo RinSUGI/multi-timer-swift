@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-VERSION="1.0.4"
+VERSION="1.0.5"
 APP_NAME="Multi Timer"
 BUNDLE_NAME="multi-timer"
 DIST="dist"
