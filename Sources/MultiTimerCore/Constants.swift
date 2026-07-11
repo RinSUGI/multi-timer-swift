@@ -57,5 +57,5 @@ public enum Constants {
     }
 
     // MARK: - Version
-    public static let appVersion = "1.0.5"
+    public static let appVersion = "1.0.6"
 }
