@@ -96,6 +96,7 @@ final class TimerListViewModel: ObservableObject {
 
     func beginEditing(_ id: String, segment: Segment) {
         guard let m = find(id), !m.isRunning else { return }
+        m.clearExpiredState()
         if let prev = m.editingSegment, prev.segment != segment {
             m.commitEditing(segment: prev.segment, input: prev.input)
             Task { await persist(m) }

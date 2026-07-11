@@ -126,6 +126,26 @@ final class TimerModelTests: XCTestCase {
         XCTAssertEqual(chime.playCount, 2)
     }
 
+    // TC-State-08b: 黄色状態から clearExpiredState() → 黄色 false、他の状態は不変
+    func testClearExpiredStateResetsColorOnly() {
+        let clock = TestClock()
+        let chime = DummyChime()
+        let model = TimerModel(configuredMs: 1000, clock: clock)
+        model.chime = chime
+        model.start()
+        clock.advance(by: 1.5)
+        model.tick()
+        XCTAssertTrue(model.expiredAfterCountdown)
+        let remainingBefore = model.remainingMs
+        let runningBefore = model.isRunning
+
+        model.clearExpiredState()
+
+        XCTAssertFalse(model.expiredAfterCountdown)
+        XCTAssertEqual(model.remainingMs, remainingBefore)
+        XCTAssertEqual(model.isRunning, runningBefore)
+    }
+
     // MARK: - TC-State tick（時刻注入）
 
     // TC-State-09: 300ms 経過 → 残り 700ms

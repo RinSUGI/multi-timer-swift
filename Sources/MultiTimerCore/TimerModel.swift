@@ -93,6 +93,10 @@ public final class TimerModel {
         }
     }
 
+    public func clearExpiredState() {
+        expiredAfterCountdown = false
+    }
+
     public func commitEditing(segment: Segment, input: String) {
         let newMs = SegmentEditing.commitSegment(remainingMs: remainingMs, segment: segment, inputString: input)
         remainingMs = newMs
