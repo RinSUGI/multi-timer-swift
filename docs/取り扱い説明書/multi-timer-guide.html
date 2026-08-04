@@ -1,0 +1,1403 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Multi Timer 取り扱い説明書</title>
+    <style>
+      :root {
+        --navy: #183247;
+        --navy-2: #28485d;
+        --teal: #2f6f6d;
+        --ink: #24323c;
+        --muted: #60717c;
+        --line: #cbd4d9;
+        --soft: #eef2f3;
+        --paper: #ffffff;
+        --amber: #a86717;
+        --amber-bg: #fff8e8;
+        --red: #973f3f;
+        --green: #32735b;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        color: var(--ink);
+        background: #e7ecef;
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN",
+          "Yu Gothic", "Noto Sans JP", sans-serif;
+        font-size: 14px;
+        line-height: 1.72;
+        letter-spacing: 0.01em;
+      }
+
+      a {
+        color: var(--teal);
+        text-underline-offset: 0.16em;
+      }
+
+      button {
+        font: inherit;
+      }
+
+      .screen-tools {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        display: flex;
+        justify-content: center;
+        gap: 16px;
+        padding: 10px 16px;
+        color: #fff;
+        background: var(--navy);
+        box-shadow: 0 1px 6px rgba(24, 50, 71, 0.25);
+      }
+
+      .screen-tools a,
+      .screen-tools button {
+        border: 0;
+        color: #fff;
+        background: transparent;
+        cursor: pointer;
+        text-decoration: none;
+      }
+
+      .screen-tools button {
+        padding: 2px 12px;
+        border-left: 1px solid rgba(255, 255, 255, 0.28);
+      }
+
+      .sheet {
+        position: relative;
+        width: 210mm;
+        min-height: 297mm;
+        margin: 14mm auto;
+        padding: 16mm 17mm 16mm;
+        overflow: hidden;
+        background: var(--paper);
+        box-shadow: 0 3mm 10mm rgba(30, 48, 60, 0.13);
+      }
+
+      .sheet::before {
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        height: 3.2mm;
+        content: "";
+        background: var(--navy);
+      }
+
+      .page-header {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        margin: 0 0 8mm;
+        padding-bottom: 3mm;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .page-header .document-name {
+        color: var(--navy);
+        font-size: 9.5pt;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+      }
+
+      .page-header .section-name {
+        color: var(--muted);
+        font-size: 8.5pt;
+      }
+
+      .page-footer {
+        position: absolute;
+        right: 17mm;
+        bottom: 7mm;
+        left: 17mm;
+        display: flex;
+        justify-content: space-between;
+        padding-top: 2mm;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 7.8pt;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+
+      h1 {
+        margin-bottom: 5mm;
+        color: var(--navy);
+        font-size: 28pt;
+        font-weight: 750;
+        line-height: 1.25;
+        letter-spacing: 0.015em;
+      }
+
+      h2 {
+        margin-bottom: 5mm;
+        color: var(--navy);
+        font-size: 19pt;
+        line-height: 1.35;
+      }
+
+      h2 .chapter {
+        display: block;
+        margin-bottom: 1mm;
+        color: var(--teal);
+        font-size: 8.5pt;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      h3 {
+        margin: 6mm 0 2.5mm;
+        color: var(--navy-2);
+        font-size: 12pt;
+      }
+
+      p,
+      li,
+      td,
+      th {
+        font-size: 9.4pt;
+      }
+
+      strong {
+        color: #1b2b35;
+      }
+
+      code {
+        padding: 0.08em 0.28em;
+        border: 1px solid #d7dee1;
+        background: #f5f7f8;
+        font-family: "SFMono-Regular", Consolas, monospace;
+        font-size: 0.9em;
+      }
+
+      .lead {
+        color: #3b4d58;
+        font-size: 11.2pt;
+        line-height: 1.75;
+      }
+
+      .eyebrow {
+        margin-bottom: 4mm;
+        color: var(--teal);
+        font-size: 9pt;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+      }
+
+      .cover {
+        padding-top: 27mm;
+      }
+
+      .cover::before {
+        height: 10mm;
+      }
+
+      .brand-lockup {
+        display: flex;
+        align-items: center;
+        gap: 5mm;
+        margin-bottom: 15mm;
+      }
+
+      .app-mark {
+        display: grid;
+        width: 18mm;
+        height: 18mm;
+        place-items: center;
+        border: 1.5mm solid var(--navy);
+        border-radius: 50%;
+        color: var(--navy);
+        font-size: 12pt;
+        font-weight: 800;
+        letter-spacing: -0.04em;
+      }
+
+      .brand-copy strong {
+        display: block;
+        color: var(--navy);
+        font-size: 15pt;
+        line-height: 1.2;
+      }
+
+      .brand-copy span {
+        color: var(--muted);
+        font-size: 8.5pt;
+        letter-spacing: 0.08em;
+      }
+
+      .cover-rule {
+        width: 26mm;
+        height: 1.2mm;
+        margin: 8mm 0;
+        background: var(--teal);
+      }
+
+      .cover-meta {
+        display: grid;
+        grid-template-columns: 34mm 1fr;
+        gap: 2mm 4mm;
+        width: 112mm;
+        margin-top: 16mm;
+        padding: 6mm 0;
+        border-top: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+      }
+
+      .cover-meta dt,
+      .cover-meta dd {
+        margin: 0;
+        font-size: 9pt;
+      }
+
+      .cover-meta dt {
+        color: var(--muted);
+      }
+
+      .cover-meta dd {
+        font-weight: 650;
+      }
+
+      .quick-path {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0;
+        margin-top: 16mm;
+        border: 1px solid var(--line);
+      }
+
+      .quick-path > div {
+        position: relative;
+        min-height: 30mm;
+        padding: 5mm 4mm;
+        border-right: 1px solid var(--line);
+      }
+
+      .quick-path > div:last-child {
+        border-right: 0;
+      }
+
+      .quick-path .num {
+        display: block;
+        margin-bottom: 2mm;
+        color: var(--teal);
+        font-size: 14pt;
+        font-weight: 800;
+      }
+
+      .quick-path strong {
+        display: block;
+        font-size: 9.2pt;
+      }
+
+      .quick-path small {
+        color: var(--muted);
+        font-size: 7.7pt;
+        line-height: 1.45;
+      }
+
+      .callout {
+        margin: 5mm 0;
+        padding: 4mm 5mm;
+        border-left: 1.2mm solid var(--teal);
+        background: var(--soft);
+      }
+
+      .callout.warning {
+        border-left-color: var(--amber);
+        background: var(--amber-bg);
+      }
+
+      .callout.danger {
+        border-left-color: var(--red);
+        background: #fff3f2;
+      }
+
+      .callout-title {
+        display: block;
+        margin-bottom: 1mm;
+        color: var(--navy);
+        font-size: 9pt;
+        font-weight: 750;
+      }
+
+      .callout p,
+      .callout ul {
+        margin-bottom: 0;
+      }
+
+      .steps {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        counter-reset: step;
+      }
+
+      .steps.start-three {
+        counter-reset: step 2;
+      }
+
+      .steps > li {
+        position: relative;
+        min-height: 13mm;
+        margin-bottom: 3.5mm;
+        padding: 1mm 0 2mm 13mm;
+        border-bottom: 1px solid #e2e7e9;
+        counter-increment: step;
+      }
+
+      .steps > li::before {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: grid;
+        width: 8.5mm;
+        height: 8.5mm;
+        place-items: center;
+        border: 1px solid var(--teal);
+        border-radius: 50%;
+        color: var(--teal);
+        content: counter(step);
+        font-size: 8.5pt;
+        font-weight: 750;
+      }
+
+      .steps > li:last-child {
+        border-bottom: 0;
+      }
+
+      .steps strong {
+        display: block;
+        margin-bottom: 0.5mm;
+      }
+
+      .steps p {
+        margin-bottom: 0;
+      }
+
+      .flow-visual {
+        display: grid;
+        grid-template-columns: 1fr 9mm 1fr 9mm 1fr;
+        align-items: center;
+        margin: 7mm 0;
+      }
+
+      .flow-box {
+        min-height: 28mm;
+        padding: 4mm;
+        border: 1px solid var(--line);
+        background: #fff;
+      }
+
+      .flow-box strong {
+        display: block;
+        color: var(--navy);
+        font-size: 10pt;
+      }
+
+      .flow-box span {
+        color: var(--muted);
+        font-size: 8pt;
+      }
+
+      .arrow {
+        color: var(--teal);
+        text-align: center;
+        font-size: 14pt;
+      }
+
+      .file-card {
+        display: grid;
+        grid-template-columns: 16mm 1fr;
+        gap: 4mm;
+        align-items: center;
+        margin: 5mm 0;
+        padding: 4mm;
+        border: 1px solid var(--line);
+        background: #fafbfb;
+      }
+
+      .file-icon {
+        display: grid;
+        width: 13mm;
+        height: 16mm;
+        place-items: center;
+        border: 1px solid var(--navy-2);
+        color: var(--navy);
+        font-size: 7pt;
+        font-weight: 800;
+      }
+
+      .file-card strong {
+        display: block;
+        font-family: "SFMono-Regular", Consolas, monospace;
+        font-size: 8.7pt;
+      }
+
+      .file-card span {
+        color: var(--muted);
+        font-size: 8pt;
+      }
+
+      .terminal {
+        margin: 3mm 0;
+        padding: 4mm 5mm;
+        overflow-wrap: anywhere;
+        border-left: 1.2mm solid #52616b;
+        color: #edf2f4;
+        background: #202b32;
+        font-family: "SFMono-Regular", Consolas, monospace;
+        font-size: 7.8pt;
+        line-height: 1.6;
+      }
+
+      .terminal .prompt {
+        color: #8dc2b2;
+      }
+
+      .installer-window {
+        margin: 6mm auto;
+        border: 1px solid #aab5bb;
+        background: #f2f4f5;
+      }
+
+      .window-bar {
+        display: flex;
+        align-items: center;
+        gap: 2mm;
+        height: 9mm;
+        padding: 0 3mm;
+        border-bottom: 1px solid #bbc4c9;
+        background: #e4e7e9;
+      }
+
+      .traffic {
+        width: 3mm;
+        height: 3mm;
+        border-radius: 50%;
+        background: #c95353;
+      }
+
+      .traffic.yellow {
+        background: #d6a542;
+      }
+
+      .traffic.green {
+        background: #5d9d63;
+      }
+
+      .window-title {
+        margin-left: auto;
+        margin-right: auto;
+        color: #4b5962;
+        font-size: 8pt;
+        font-weight: 650;
+      }
+
+      .installer-content {
+        display: grid;
+        grid-template-columns: 1fr 25mm 1fr;
+        align-items: center;
+        min-height: 66mm;
+        padding: 8mm 20mm;
+        text-align: center;
+      }
+
+      .large-app-icon,
+      .folder-icon {
+        display: grid;
+        width: 24mm;
+        height: 24mm;
+        margin: 0 auto 3mm;
+        place-items: center;
+        border: 1.2mm solid var(--navy);
+        color: var(--navy);
+        font-size: 10pt;
+        font-weight: 800;
+      }
+
+      .large-app-icon {
+        border-radius: 50%;
+      }
+
+      .folder-icon {
+        border-color: #6e8592;
+        background: #d9e6ed;
+      }
+
+      .installer-content span {
+        font-size: 8.5pt;
+        font-weight: 650;
+      }
+
+      .drag-arrow {
+        color: var(--teal);
+        font-size: 24pt;
+      }
+
+      .settings-path {
+        margin: 5mm 0;
+        padding: 5mm;
+        border: 1px solid var(--line);
+        color: var(--navy);
+        background: var(--soft);
+        font-size: 10.5pt;
+        font-weight: 700;
+        text-align: center;
+      }
+
+      .settings-path span {
+        color: var(--teal);
+        padding: 0 2mm;
+      }
+
+      .app-window {
+        width: 118mm;
+        margin: 5mm auto 7mm;
+        overflow: hidden;
+        border: 1px solid #0f181e;
+        background: #1c1c1e;
+        box-shadow: 0 2mm 6mm rgba(20, 30, 36, 0.2);
+      }
+
+      .app-window .window-bar {
+        border-bottom-color: #303033;
+        background: #1c1c1e;
+      }
+
+      .app-window .window-title {
+        color: #909094;
+      }
+
+      .timer-card {
+        padding: 7mm 9mm 5mm;
+        color: #fff;
+        text-align: center;
+      }
+
+      .timer-title-row {
+        display: grid;
+        grid-template-columns: 1fr 10mm;
+        align-items: center;
+        color: rgba(255, 255, 255, 0.85);
+        font-size: 10pt;
+      }
+
+      .delete-circle {
+        display: grid;
+        width: 6mm;
+        height: 6mm;
+        place-items: center;
+        border-radius: 50%;
+        background: #bf4140;
+        font-size: 7pt;
+      }
+
+      .timer-time {
+        margin: 4mm 0;
+        font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        font-size: 30pt;
+        font-weight: 730;
+        letter-spacing: 0.02em;
+      }
+
+      .timer-buttons {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 2mm;
+      }
+
+      .timer-buttons span {
+        padding: 1.5mm 1mm;
+        border-radius: 2.5mm;
+        color: #fff;
+        font-size: 7pt;
+        font-weight: 650;
+      }
+
+      .start {
+        background: #32834a;
+      }
+
+      .stop {
+        background: #b33d39;
+      }
+
+      .reset {
+        background: #316ca3;
+      }
+
+      .clear {
+        background: #676a70;
+      }
+
+      .add-timer {
+        padding: 3mm;
+        border-top: 1px solid #3a3a3d;
+        color: #c3c3c5;
+        text-align: center;
+        font-size: 14pt;
+      }
+
+      .legend-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3mm 8mm;
+      }
+
+      .legend-item {
+        display: grid;
+        grid-template-columns: 8mm 1fr;
+        gap: 3mm;
+        align-items: start;
+      }
+
+      .legend-key {
+        display: grid;
+        width: 7mm;
+        height: 7mm;
+        place-items: center;
+        border: 1px solid var(--teal);
+        color: var(--teal);
+        font-size: 7.5pt;
+        font-weight: 750;
+      }
+
+      .legend-item strong {
+        display: block;
+        font-size: 8.8pt;
+      }
+
+      .legend-item span {
+        display: block;
+        color: var(--muted);
+        font-size: 7.7pt;
+        line-height: 1.45;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      th,
+      td {
+        padding: 2.5mm 3mm;
+        border-bottom: 1px solid var(--line);
+        vertical-align: top;
+        text-align: left;
+      }
+
+      th {
+        color: var(--navy);
+        background: var(--soft);
+        font-size: 8.3pt;
+      }
+
+      td:first-child {
+        width: 28mm;
+        color: var(--navy);
+        font-weight: 700;
+        white-space: nowrap;
+      }
+
+      .use-cases {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4mm;
+      }
+
+      .use-case {
+        min-height: 33mm;
+        padding: 4mm;
+        border-top: 1.2mm solid var(--teal);
+        background: var(--soft);
+      }
+
+      .use-case strong {
+        display: block;
+        margin-bottom: 1mm;
+        color: var(--navy);
+        font-size: 9pt;
+      }
+
+      .use-case p {
+        margin-bottom: 0;
+        color: #4b5a64;
+        font-size: 8.2pt;
+        line-height: 1.55;
+      }
+
+      .faq {
+        margin: 0;
+      }
+
+      .faq dt {
+        margin-top: 4mm;
+        padding-left: 4mm;
+        border-left: 1mm solid var(--teal);
+        color: var(--navy);
+        font-size: 9.3pt;
+        font-weight: 750;
+      }
+
+      .faq dd {
+        margin: 1mm 0 0 5mm;
+        color: #465761;
+        font-size: 8.6pt;
+      }
+
+      .support-box {
+        margin-top: 7mm;
+        padding: 5mm;
+        border: 1px solid var(--navy-2);
+      }
+
+      .support-box h3 {
+        margin-top: 0;
+      }
+
+      .support-box ul {
+        margin-bottom: 0;
+      }
+
+      .privacy-list {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 3mm;
+        margin: 5mm 0;
+      }
+
+      .privacy-item {
+        padding: 4mm;
+        border: 1px solid var(--line);
+      }
+
+      .privacy-item strong {
+        display: block;
+        color: var(--navy);
+        font-size: 8.5pt;
+      }
+
+      .privacy-item span {
+        display: block;
+        margin-top: 1mm;
+        color: var(--muted);
+        font-size: 7.7pt;
+        line-height: 1.5;
+      }
+
+      .yellow-time {
+        color: #b28a00;
+        font-weight: 750;
+      }
+
+      .install-page .installer-content {
+        min-height: 58mm;
+        padding-top: 6mm;
+        padding-bottom: 6mm;
+      }
+
+      .install-page .flow-visual {
+        margin-top: 3mm;
+      }
+
+      .install-page .flow-box {
+        min-height: 22mm;
+      }
+
+      .no-break {
+        break-inside: avoid;
+      }
+
+      @media print {
+        @page {
+          size: A4;
+          margin: 0;
+        }
+
+        body {
+          background: #fff;
+          print-color-adjust: exact;
+          -webkit-print-color-adjust: exact;
+        }
+
+        .screen-tools {
+          display: none;
+        }
+
+        .sheet {
+          width: 210mm;
+          height: 297mm;
+          min-height: 297mm;
+          margin: 0;
+          box-shadow: none;
+          break-after: page;
+          page-break-after: always;
+        }
+
+        .sheet:last-child {
+          break-after: auto;
+          page-break-after: auto;
+        }
+      }
+
+      @media screen and (max-width: 860px) {
+        .sheet {
+          width: calc(100% - 24px);
+          min-height: auto;
+          margin: 12px;
+          padding: 28px 22px 50px;
+        }
+
+        .page-footer {
+          right: 22px;
+          bottom: 14px;
+          left: 22px;
+        }
+
+        .quick-path,
+        .privacy-list {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .quick-path > div:nth-child(2) {
+          border-right: 0;
+        }
+
+        .quick-path > div {
+          border-bottom: 1px solid var(--line);
+        }
+
+        .flow-visual {
+          grid-template-columns: 1fr;
+          gap: 8px;
+        }
+
+        .arrow {
+          transform: rotate(90deg);
+        }
+
+        .app-window {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="screen-tools" aria-label="文書メニュー">
+      <a href="#contents">目次</a>
+      <a href="#troubleshooting">困ったとき</a>
+      <button type="button" onclick="window.print()">印刷・PDF保存</button>
+    </nav>
+
+    <main>
+      <section class="sheet cover" aria-labelledby="cover-title">
+        <div class="brand-lockup">
+          <div class="app-mark" aria-hidden="true">MT</div>
+          <div class="brand-copy">
+            <strong>Multi Timer</strong>
+            <span>MACOS COUNTDOWN UTILITY</span>
+          </div>
+        </div>
+
+        <p class="eyebrow">社内配布アプリケーション</p>
+        <h1 id="cover-title">取り扱い説明書</h1>
+        <div class="cover-rule"></div>
+        <p class="lead">
+          Google Driveからアプリを受け取り、Macへインストールして、複数のカウントダウンを使うための手順書です。
+        </p>
+
+        <dl class="cover-meta">
+          <dt>対象アプリ</dt>
+          <dd>Multi Timer 1.0.6</dd>
+          <dt>対応OS</dt>
+          <dd>macOS 13 Ventura以降</dd>
+          <dt>対象ファイル</dt>
+          <dd>Multi Timer-1.0.6-universal.dmg</dd>
+          <dt>文書版</dt>
+          <dd>第1版 / 2026年7月</dd>
+        </dl>
+
+        <div class="quick-path" aria-label="利用開始までの流れ">
+          <div>
+            <span class="num">01</span>
+            <strong>ダウンロード</strong>
+            <small>Google DriveからDMGを保存</small>
+          </div>
+          <div>
+            <span class="num">02</span>
+            <strong>インストール</strong>
+            <small>Applicationsへドラッグ</small>
+          </div>
+          <div>
+            <span class="num">03</span>
+            <strong>初回許可</strong>
+            <small>macOSのセキュリティを確認</small>
+          </div>
+          <div>
+            <span class="num">04</span>
+            <strong>利用開始</strong>
+            <small>時間を設定してStart</small>
+          </div>
+        </div>
+
+        <div class="callout warning" style="margin-top: 12mm">
+          <span class="callout-title">はじめに</span>
+          <p>
+            このアプリは社内配布用で、AppleのDeveloper IDによる公証を行っていません。初回だけmacOSの許可操作が必要です。
+          </p>
+        </div>
+
+        <div class="page-footer">
+          <span>Multi Timer 取り扱い説明書</span><span>1 / 8</span>
+        </div>
+      </section>
+
+      <section class="sheet" id="contents" aria-labelledby="contents-title">
+        <header class="page-header">
+          <span class="document-name">MULTI TIMER</span>
+          <span class="section-name">目次・概要</span>
+        </header>
+
+        <h2 id="contents-title"><span class="chapter">Contents</span>この手順書の使い方</h2>
+        <p class="lead">
+          はじめて使う方は、第1章から順に進めてください。すでにインストール済みの場合は、第4章から確認できます。
+        </p>
+
+        <table aria-label="目次">
+          <thead>
+            <tr><th>章</th><th>内容</th><th>ページ</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>第1章</td><td>Google Driveからダウンロードする</td><td>3</td></tr>
+            <tr><td>第2章</td><td>Macへインストールする</td><td>4</td></tr>
+            <tr><td>第3章</td><td>初回起動と通知を許可する</td><td>5</td></tr>
+            <tr><td>第4章</td><td>画面とボタンの見方</td><td>6</td></tr>
+            <tr><td>第5章</td><td>日常の使い方と注意事項</td><td>7</td></tr>
+            <tr><td>第6章</td><td>困ったとき・問い合わせ</td><td>8</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Multi Timerでできること</h3>
+        <div class="use-cases">
+          <div class="use-case">
+            <strong>複数の時間を同時に管理</strong>
+            <p>最大12個のタイマーを縦に並べ、それぞれ独立して開始・停止できます。</p>
+          </div>
+          <div class="use-case">
+            <strong>タイトルで用途を区別</strong>
+            <p>「定例休憩」「確認作業」など、各タイマーに50文字まで名前を付けられます。</p>
+          </div>
+          <div class="use-case">
+            <strong>終了を音と通知で確認</strong>
+            <p>設定時間になるとチャイムが鳴り、タイマー名を含むmacOS通知が表示されます。</p>
+          </div>
+          <div class="use-case">
+            <strong>次回も同じ設定を利用</strong>
+            <p>タイトルと設定時間を自動保存します。次の起動時も同じ設定から始められます。</p>
+          </div>
+        </div>
+
+        <div class="callout danger">
+          <span class="callout-title">重要: カウントダウン中はウィンドウを閉じない</span>
+          <p>
+            ウィンドウを閉じると、実行中だったカウントダウンは引き継がれず、終了通知も届きません。利用中はウィンドウを開いたままにしてください。
+          </p>
+        </div>
+
+        <div class="page-footer">
+          <span>Multi Timer 取り扱い説明書</span><span>2 / 8</span>
+        </div>
+      </section>
+
+      <section class="sheet" aria-labelledby="download-title">
+        <header class="page-header">
+          <span class="document-name">MULTI TIMER</span>
+          <span class="section-name">Google Driveから入手</span>
+        </header>
+
+        <h2 id="download-title"><span class="chapter">Chapter 01</span>Google Driveからダウンロードする</h2>
+
+        <ol class="steps">
+          <li>
+            <strong>社内で共有されたGoogle Driveのリンクを開く</strong>
+            <p>会社のGoogleアカウントでアクセスします。権限がない場合は、配布担当者へ共有を依頼してください。</p>
+          </li>
+          <li>
+            <strong>DMGファイルを選ぶ</strong>
+            <p>ファイル名が次のとおりであることを確認します。</p>
+          </li>
+        </ol>
+
+        <div class="file-card">
+          <div class="file-icon" aria-hidden="true">DMG</div>
+          <div>
+            <strong>Multi Timer-1.0.6-universal.dmg</strong>
+            <span>macOS用インストールイメージ / Apple Silicon・Intel共通</span>
+          </div>
+        </div>
+
+        <ol class="steps start-three" start="3">
+          <li>
+            <strong>右上のダウンロードアイコンをクリックする</strong>
+            <p>アイコンが見つからない場合は、縦3点メニューから「ダウンロード」を選びます。</p>
+          </li>
+          <li>
+            <strong>ダウンロード完了を待つ</strong>
+            <p>通常はMacの「ダウンロード」フォルダへ保存されます。</p>
+          </li>
+        </ol>
+
+        <div class="callout">
+          <span class="callout-title">Google Driveでプレビューできない場合</span>
+          <p>
+            DMGは書類や動画のようにプレビューできません。ファイル名と共有元を確認したうえで、そのままダウンロードしてください。
+          </p>
+        </div>
+
+        <h3>ファイルが正しいか確認する（推奨）</h3>
+        <p>
+          配布時に案内されたSHA-256と一致すれば、ダウンロード中にファイルが変わっていないことを確認できます。ターミナルを開き、次を実行します。
+        </p>
+        <div class="terminal">
+          <span class="prompt">$</span> shasum -a 256 "$HOME/Downloads/Multi
+          Timer-1.0.6-universal.dmg"<br />
+          dc6c8ae585f862ab593ad0dd2a8c19a95a780fa63809d237ff5124c2a503bc56
+        </div>
+        <p>
+          先頭の64文字が上記と一致することを確認します。一致しない場合は開かず、ファイルを削除して配布担当者へ連絡してください。
+        </p>
+
+        <div class="page-footer">
+          <span>Multi Timer 取り扱い説明書</span><span>3 / 8</span>
+        </div>
+      </section>
+
+      <section class="sheet install-page" aria-labelledby="install-title">
+        <header class="page-header">
+          <span class="document-name">MULTI TIMER</span>
+          <span class="section-name">インストール</span>
+        </header>
+
+        <h2 id="install-title"><span class="chapter">Chapter 02</span>Macへインストールする</h2>
+
+        <ol class="steps">
+          <li>
+            <strong>DMGファイルを開く</strong>
+            <p>「ダウンロード」フォルダにある<code>Multi Timer-1.0.6-universal.dmg</code>をダブルクリックします。</p>
+          </li>
+          <li>
+            <strong>アプリをApplicationsフォルダへコピーする</strong>
+            <p>開いたウィンドウで、左のMulti Timerアイコンを右のApplicationsフォルダへドラッグします。</p>
+          </li>
+        </ol>
+
+        <div class="installer-window" role="img" aria-label="Multi TimerをApplicationsフォルダへドラッグする図">
+          <div class="window-bar">
+            <span class="traffic"></span><span class="traffic yellow"></span><span class="traffic green"></span>
+            <span class="window-title">Multi Timer</span>
+          </div>
+          <div class="installer-content">
+            <div>
+              <div class="large-app-icon">MT</div>
+              <span>Multi Timer</span>
+            </div>
+            <div class="drag-arrow" aria-hidden="true">→</div>
+            <div>
+              <div class="folder-icon">A</div>
+              <span>Applications</span>
+            </div>
+          </div>
+        </div>
+
+        <ol class="steps start-three" start="3">
+          <li>
+            <strong>コピーが完了したらDMGを閉じる</strong>
+            <p>Finderのサイドバーにある「Multi Timer」の取り出しボタンを押しても構いません。</p>
+          </li>
+          <li>
+            <strong>Applicationsフォルダを確認する</strong>
+            <p>Finderの「アプリケーション」に<code>Multi Timer.app</code>があればインストール完了です。</p>
+          </li>
+        </ol>
+
+        <div class="callout warning">
+          <span class="callout-title">DMGの中から直接使わないでください</span>
+          <p>
+            必ずApplicationsフォルダへコピーしてから起動します。DMGを開いたまま直接起動すると、次回の利用時に見つけにくくなります。
+          </p>
+        </div>
+
+        <h3>次回以降の起動方法</h3>
+        <div class="flow-visual">
+          <div class="flow-box"><strong>Finder</strong><span>アプリケーションを開く</span></div>
+          <div class="arrow">→</div>
+          <div class="flow-box"><strong>Multi Timer</strong><span>アイコンをダブルクリック</span></div>
+          <div class="arrow">→</div>
+          <div class="flow-box"><strong>利用開始</strong><span>2回目以降は許可不要</span></div>
+        </div>
+
+        <div class="page-footer">
+          <span>Multi Timer 取り扱い説明書</span><span>4 / 8</span>
+        </div>
+      </section>
+
+      <section class="sheet" aria-labelledby="first-launch-title">
+        <header class="page-header">
+          <span class="document-name">MULTI TIMER</span>
+          <span class="section-name">初回起動・通知</span>
+        </header>
+
+        <h2 id="first-launch-title"><span class="chapter">Chapter 03</span>初回起動と通知を許可する</h2>
+
+        <div class="callout warning">
+          <span class="callout-title">「開発元を確認できないため開けません」と表示されても異常ではありません</span>
+          <p>社内配布用のアドホック署名アプリのため、初回だけmacOSの確認が表示されます。</p>
+        </div>
+
+        <ol class="steps">
+          <li>
+            <strong>ApplicationsフォルダのMulti Timerをダブルクリックする</strong>
+            <p>警告が表示されたら「OK」を押して閉じます。</p>
+          </li>
+          <li>
+            <strong>「システム設定」を開く</strong>
+            <p>画面左上のAppleメニューから「システム設定」を選びます。</p>
+          </li>
+          <li>
+            <strong>「プライバシーとセキュリティ」を開く</strong>
+            <p>画面を下へスクロールし、Multi Timerに関するメッセージを探します。</p>
+          </li>
+          <li>
+            <strong>「このまま開く」をクリックする</strong>
+            <p>Touch IDまたはMacのパスワードで認証します。確認画面が出たら「開く」を選びます。</p>
+          </li>
+        </ol>
+
+        <div class="settings-path">
+          Appleメニュー <span>›</span> システム設定 <span>›</span> プライバシーとセキュリティ <span>›</span> このまま開く
+        </div>
+
+        <p style="color: var(--muted); font-size: 8pt">
+          macOSのバージョンによって、ボタンの名称や表示位置が少し異なる場合があります。
+        </p>
+
+        <h3>通知を許可する</h3>
+        <ol class="steps">
+          <li>
+            <strong>起動時の通知確認で「許可」を選ぶ</strong>
+            <p>タイマー終了時に、タイトルを含む通知を表示できるようになります。</p>
+          </li>
+          <li>
+            <strong>誤って許可しなかった場合</strong>
+            <p>「システム設定」→「通知」→「Multi Timer」で通知をオンにします。</p>
+          </li>
+        </ol>
+
+        <div class="callout">
+          <span class="callout-title">通知を許可しなくても使えます</span>
+          <p>タイマーと終了チャイムは動作します。画面外でも気付きたい場合は通知を許可してください。</p>
+        </div>
+
+        <div class="page-footer">
+          <span>Multi Timer 取り扱い説明書</span><span>5 / 8</span>
+        </div>
+      </section>
+
+      <section class="sheet" aria-labelledby="ui-title">
+        <header class="page-header">
+          <span class="document-name">MULTI TIMER</span>
+          <span class="section-name">画面・基本操作</span>
+        </header>
+
+        <h2 id="ui-title"><span class="chapter">Chapter 04</span>画面とボタンの見方</h2>
+
+        <div class="app-window" role="img" aria-label="Multi Timerの画面構成図">
+          <div class="window-bar">
+            <span class="traffic"></span><span class="traffic yellow"></span><span class="traffic green"></span>
+            <span class="window-title">Multi Timer</span>
+          </div>
+          <div class="timer-card">
+            <div class="timer-title-row"><span>資料レビュー</span><span class="delete-circle">×</span></div>
+            <div class="timer-time">00:25:00</div>
+            <div class="timer-buttons">
+              <span class="start">Start</span><span class="stop">Stop</span><span class="reset">Reset</span><span class="clear">Clear</span>
+            </div>
+          </div>
+          <div class="add-timer">＋</div>
+        </div>
+
+        <div class="legend-grid">
+          <div class="legend-item">
+            <span class="legend-key">1</span>
+            <div><strong>タイトル</strong><span>クリックして用途を入力します。終了通知にも表示されます。</span></div>
+          </div>
+          <div class="legend-item">
+            <span class="legend-key">2</span>
+            <div><strong>削除「×」</strong><span>そのタイマーを画面と保存データから削除します。</span></div>
+          </div>
+          <div class="legend-item">
+            <span class="legend-key">3</span>
+            <div><strong>時刻</strong><span>時・分・秒をそれぞれクリックして入力します。</span></div>
+          </div>
+          <div class="legend-item">
+            <span class="legend-key">4</span>
+            <div><strong>操作ボタン</strong><span>開始、停止、設定時間へ戻す、0にする操作です。</span></div>
+          </div>
+          <div class="legend-item">
+            <span class="legend-key">5</span>
+            <div><strong>追加「＋」</strong><span>新しいタイマーを末尾に追加します。上限は12個です。</span></div>
+          </div>
+          <div class="legend-item">
+            <span class="legend-key">6</span>
+            <div><strong>黄色の時刻</strong><span>カウントダウンが完了し、自動で元の時間へ戻った印です。</span></div>
+          </div>
+        </div>
+
+        <h3>4つのボタン</h3>
+        <table aria-label="操作ボタンの説明">
+          <tbody>
+            <tr><td>Start</td><td>設定した残り時間からカウントダウンを開始します。</td></tr>
+            <tr><td>Stop</td><td>途中で停止します。残り時間は保持され、Startで再開できます。</td></tr>
+            <tr><td>Reset</td><td>停止して、入力した設定時間へ戻します。</td></tr>
+            <tr><td>Clear</td><td>停止して、設定時間を<code>00:00:00</code>にします。</td></tr>
+          </tbody>
+        </table>
+
+        <div class="callout">
+          <span class="callout-title">入力のコツ</span>
+          <p>
+            <code>00:25:00</code>なら中央の「分」をクリックして<code>25</code>と入力します。Enterまたは欄の外をクリックすると確定します。
+          </p>
+        </div>
+
+        <div class="page-footer">
+          <span>Multi Timer 取り扱い説明書</span><span>6 / 8</span>
+        </div>
+      </section>
+
+      <section class="sheet" aria-labelledby="daily-title">
+        <header class="page-header">
+          <span class="document-name">MULTI TIMER</span>
+          <span class="section-name">日常の使い方</span>
+        </header>
+
+        <h2 id="daily-title"><span class="chapter">Chapter 05</span>日常の使い方と注意事項</h2>
+
+        <h3 style="margin-top: 0">基本的な使い方</h3>
+        <div class="flow-visual">
+          <div class="flow-box"><strong>時間を入力</strong><span>時・分・秒をクリック</span></div>
+          <div class="arrow">→</div>
+          <div class="flow-box"><strong>Start</strong><span>カウントダウン開始</span></div>
+          <div class="arrow">→</div>
+          <div class="flow-box"><strong>終了</strong><span>音・通知・<span class="yellow-time">黄色表示</span></span></div>
+        </div>
+
+        <div class="use-cases">
+          <div class="use-case">
+            <strong>同じ時間を繰り返す</strong>
+            <p>終了すると設定時間へ自動で戻ります。時刻が黄色になったら、再びStartを押します。</p>
+          </div>
+          <div class="use-case">
+            <strong>複数の予定を並行する</strong>
+            <p>画面下の「＋」で追加し、タイトルを付けます。各タイマーは独立して動作します。</p>
+          </div>
+        </div>
+
+        <div class="callout danger">
+          <span class="callout-title">削除とウィンドウ操作に注意</span>
+          <ul>
+            <li>赤い「×」を押すと、そのタイマーはすぐに削除されます。</li>
+            <li>カウントダウン中はウィンドウを閉じないでください。</li>
+            <li>アプリを完全に終了する場合は<code>Command + Q</code>を押します。</li>
+          </ul>
+        </div>
+
+        <h3>知っておきたい動作</h3>
+        <table aria-label="アプリの保存と表示に関する動作">
+          <tbody>
+            <tr><td>終了後</td><td>チャイムと通知のあと、設定時間へ自動で戻り、時刻が<span class="yellow-time">黄色</span>になります。</td></tr>
+            <tr><td>次回起動</td><td>タイトルと設定時間は復元されます。残り時間と実行中の状態は復元されません。</td></tr>
+            <tr><td>追加</td><td>画面下の「＋」で最大12個まで追加できます。</td></tr>
+            <tr><td>狭い画面</td><td>ウィンドウ幅を狭くすると、操作ボタンは文字からアイコン表示へ切り替わります。</td></tr>
+          </tbody>
+        </table>
+
+        <div class="page-footer">
+          <span>Multi Timer 取り扱い説明書</span><span>7 / 8</span>
+        </div>
+      </section>
+
+      <section class="sheet" id="troubleshooting" aria-labelledby="trouble-title">
+        <header class="page-header">
+          <span class="document-name">MULTI TIMER</span>
+          <span class="section-name">困ったとき・問い合わせ</span>
+        </header>
+
+        <h2 id="trouble-title"><span class="chapter">Chapter 06</span>困ったとき</h2>
+
+        <dl class="faq">
+          <dt>「このまま開く」が見つかりません</dt>
+          <dd>先にApplicationsのMulti Timerを一度ダブルクリックし、警告を表示して「OK」で閉じてから、システム設定を開き直します。</dd>
+
+          <dt>通知が表示されません</dt>
+          <dd>「システム設定」→「通知」→「Multi Timer」で通知をオンにします。集中モードの設定も確認してください。</dd>
+
+          <dt>チャイムが聞こえません</dt>
+          <dd>Macの音量と消音状態を確認します。通知を許可していなくてもチャイムは鳴ります。</dd>
+
+          <dt>ウィンドウを閉じてしまいました</dt>
+          <dd>DockのMulti Timerアイコンをクリックすると再表示できます。ただし、閉じる前に実行中だったカウントダウンは引き継がれません。</dd>
+
+          <dt>Resetが押せません</dt>
+          <dd>設定時間と表示時間が同じ場合はResetが無効になります。これは正常な動作です。</dd>
+        </dl>
+
+        <h3>データとプライバシー</h3>
+        <div class="privacy-list">
+          <div class="privacy-item"><strong>通信なし</strong><span>アプリから外部へのネットワーク通信やテレメトリはありません。</span></div>
+          <div class="privacy-item"><strong>保存内容</strong><span>タイトルと設定時間だけをMac内へ保存します。</span></div>
+          <div class="privacy-item"><strong>再起動時</strong><span>残り時間と実行状態は保存せず、設定時間から停止状態で始まります。</span></div>
+        </div>
+
+        <div class="support-box">
+          <h3>解決しない場合</h3>
+          <p>社内の配布担当者へ、次の情報を添えて連絡してください。</p>
+          <ul>
+            <li>DMGのファイル名または画面下部に表示されるバージョン</li>
+            <li>利用中のmacOSバージョン</li>
+            <li>行った操作と、表示されたメッセージ</li>
+          </ul>
+        </div>
+
+        <div class="callout" style="margin-top: 8mm">
+          <span class="callout-title">再インストール前に</span>
+          <p>問題が続く場合も、保存データの削除は行わず、まず配布担当者へ状況を共有してください。</p>
+        </div>
+
+        <div class="page-footer">
+          <span>Copyright © 2026 BeyondSight</span><span>8 / 8</span>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
