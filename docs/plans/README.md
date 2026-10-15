@@ -1,11 +1,11 @@
 # 実装詳細プラン インデックス
 
-`docs/design-docs/` の設計・仕様を正本として、Swift ネイティブ版 Multi Timer を実装するための作業詳細プランである。
+`docs/design-docs/` の設計・仕様を正本として、Multi Timer を実装するための作業詳細プランである。
 
 ## このプランの読者と前提
 
-- 実行者は Claude（Sonnet 4.6）を想定する。本会話の履歴なしで、このプランと `docs/design-docs/` だけを見て単独実行できる粒度で書く。
-- 迷ったら必ず `docs/design-docs/` の該当仕様を参照する。プランと仕様が食い違う場合は仕様書が正本である。仕様の抜けを見つけたら、実装前に既存実装（`_archive/multi-timer-mac/src/`）を確認し、必要なら仕様書へ追記してから実装する。
+- 実行者は本会話の履歴なしで、このプランと `docs/design-docs/` だけを見て単独実行できる粒度で書く。
+- 迷ったら必ず `docs/design-docs/` の該当仕様を参照する。プランと仕様が食い違う場合は仕様書が正本である。仕様の抜けを見つけたら、実装前に仕様書へ追記してから実装する。
 - コミット・push・PR 作成は、人間の明示指示があるまで行わない。各フェーズ完了時に検証結果を報告し、指示を待つ。
 
 ## 進め方の原則
@@ -20,7 +20,7 @@
 | フェーズ | ファイル                                                 | 内容                                                                         |
 | -------- | -------------------------------------------------------- | ---------------------------------------------------------------------------- |
 | 全体     | [00-plan-overview.md](00-plan-overview.md)               | 原則・依存方向・テスト対応表・完了条件・用語                                 |
-| 0        | [01-doc-reconciliation.md](01-doc-reconciliation.md)     | OQ 決定の設計書反映（実装前の先行タスク）                                    |
+| 0        | [01-doc-reconciliation.md](01-doc-reconciliation.md)     | 決定事項の設計書反映（実装前の先行タスク）                                   |
 | 1        | [02-project-scaffolding.md](02-project-scaffolding.md)   | SwiftPM パッケージ・ターゲット・ディレクトリ・共有定数                       |
 | 2        | [03-core-and-unit-tests.md](03-core-and-unit-tests.md)   | Core 純粋ロジックと単体テスト（TC-Time/Clamp/Edit/State/Norm/Number/Notify） |
 | 3        | [04-persistence.md](04-persistence.md)                   | 永続化 I/O・直列化・破損対応と結合テスト（TC-Persist）                       |

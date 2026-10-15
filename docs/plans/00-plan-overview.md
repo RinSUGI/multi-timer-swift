@@ -4,12 +4,12 @@
 
 ## 実装対象と非対象
 
-- 対象: 既存 Electron 版（`_archive/multi-timer-mac`、v1.0.4）の全機能を Swift で同等再現する。
-- 非対象: 新機能追加、Windows/Linux 対応、通信・同期・自動アップデート、公証（notarization）の必須化。詳細は `docs/design-docs/00-overview/purpose-and-scope.md`。
+- 対象: `docs/design-docs/10-requirements/functional.md` の F-01〜F-12 を満たす macOS ネイティブアプリを実装する。
+- 非対象: Windows/Linux 対応、通信・同期・自動アップデート、公証（notarization）の必須化。詳細は `docs/design-docs/00-overview/purpose-and-scope.md`。
 
 ## モジュール構成（このプランで採用する具体形）
 
-`docs/design-docs/40-architecture/module-structure.md` の分割方針を、SwiftPM（OQ-06）で次のターゲットに落とす。ファイル名・関数名は実装時に微調整してよいが、依存方向は厳守する。
+`docs/design-docs/40-architecture/module-structure.md` の分割方針を、SwiftPM で次のターゲットに落とす。ファイル名・関数名は実装時に微調整してよいが、依存方向は厳守する。
 
 ```text
 Package.swift
@@ -19,7 +19,7 @@ Sources/
     TimeConversion.swift   # ミリ秒 ⇄ 時分秒・整形・クランプ
     SegmentEditing.swift   # セグメント値クランプ・確定合成
     TimerModel.swift       # 1 タイマーの状態遷移（start/stop/reset/clear/tick）とボタン活性
-    TimerNormalization.swift # 正規化・パース・移行・採番・通知タイトル整形
+    TimerNormalization.swift # 正規化・パース・採番・通知タイトル整形
     Clock.swift            # 時刻注入用プロトコルと実装（テスト容易性）
     Ports.swift            # 通知・音のプロトコル（Platform が実装、テストはダミー）
   MultiTimerStorage/       # ライブラリ。JSON 永続化 I/O・直列化・破損対応。Core に依存
@@ -27,12 +27,13 @@ Sources/
   MultiTimerApp/           # 実行ファイル。Platform・UI・App。Core と Storage に依存
     Platform/              # 通知（UserNotifications）・音（AVAudioPlayer）・ウィンドウ（AppKit）
     UI/                    # SwiftUI ビュー・ビューモデル・スケーリング
-    Resources/             # icon.icns・chime.caf・Info.plist テンプレート
+    Resources/             # AppIcon.icns・chime.caf（バンドル同梱リソース）
     App.swift              # @main エントリポイント
 Tests/
   MultiTimerCoreTests/     # TC-Time/Clamp/Edit/State/Norm/Number/Notify
   MultiTimerStorageTests/  # TC-Persist（一時ディレクトリを使う結合テスト）
 scripts/
+  Info.plist               # .app 組み立て時に Contents/ へ配置するテンプレート
   render-chime.swift       # チャイム音源を一度だけレンダリングする開発用スクリプト
   build-app.sh             # Universal ビルド → .app 組み立て → アドホック署名 → DMG
 ```
@@ -53,17 +54,17 @@ scripts/
 
 `Constants.swift` に集約し、UI・Storage の双方から参照する。二重管理しない。
 
-| 定数               | 値                                       | 由来                                               |
-| ------------------ | ---------------------------------------- | -------------------------------------------------- |
-| `maxTimers`        | 12                                       | `docs/design-docs/20-spec/multi-timer.md`          |
-| `maxTitleLength`   | 50                                       | `docs/design-docs/30-data/persistence.md`          |
-| `maxConfiguredMs`  | 359_999_000（`(99*3600+59*60+59)*1000`） | 同上（`99:59:59`）                                 |
-| セグメント上限     | 時 99 / 分 59 / 秒 59                    | `docs/design-docs/20-spec/time-editing.md`         |
-| タイトルデバウンス | 300ms                                    | `docs/design-docs/30-data/persistence.md`（OQ-05） |
+| 定数               | 値                                       | 由来                                       |
+| ------------------ | ---------------------------------------- | ------------------------------------------ |
+| `maxTimers`        | 12                                       | `docs/design-docs/20-spec/multi-timer.md`  |
+| `maxTitleLength`   | 50                                       | `docs/design-docs/30-data/persistence.md`  |
+| `maxConfiguredMs`  | 359_999_000（`(99*3600+59*60+59)*1000`） | 同上（`99:59:59`）                         |
+| セグメント上限     | 時 99 / 分 59 / 秒 59                    | `docs/design-docs/20-spec/time-editing.md` |
+| タイトルデバウンス | 300ms                                    | `docs/design-docs/30-data/persistence.md`  |
 
 色・ウィンドウ寸法・チャイム周波数も `Constants.swift` に定義する。値は `docs/design-docs/50-ui/layout-and-style.md` と `docs/design-docs/20-spec/notification-and-sound.md` を正とする。
 
-## 保存タイミング（OQ-05 の決定を反映）
+## 保存タイミング
 
 | きっかけ             | タイミング                         |
 | -------------------- | ---------------------------------- |
@@ -127,4 +128,3 @@ scripts/
 
 - macOS（Darwin）。`python` コマンドは無い前提。必要なら `uv run python` か `python3`（`docs/DOCUMENTATION_GUIDE.md`）。
 - lint 一式は `npm install` 済みの Node と `shfmt` / `shellcheck`（Homebrew）に依存する。
-- `_archive/` と `_misc/` は `.gitignore` 対象のローカル専用。参照はするが、成果物が依存するファイル（アイコン等）はトラッキング下へコピーする（フェーズ 7 で扱う）。

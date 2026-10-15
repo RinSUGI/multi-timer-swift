@@ -5,7 +5,7 @@
 ## 前提
 
 - 標準フレームワークのみ（`UserNotifications` / `AVFoundation` / `AppKit`）。外部依存を追加しない。
-- チャイムは方針 A（事前レンダリング音源）を採用（OQ-03）。
+- チャイムは事前レンダリング音源を採用する。
 - 通知・音の「発火判断」は Core 側。Platform は「実表示・実再生」に徹する（`docs/design-docs/60-testing/strategy.md`）。
 
 ## ステップ 4.1 チャイム音源のレンダリング（開発用スクリプト）
@@ -51,7 +51,7 @@
 - 対象ファイル: `Sources/MultiTimerApp/Platform/WindowConfigurator.swift`（または App 側から使うヘルパ）
 - 仕様: `docs/design-docs/50-ui/layout-and-style.md`、`docs/design-docs/40-architecture/technology-choices.md`。
 - 実装内容（SwiftUI では届かない部分を AppKit で補う）
-  - タイトルバーを隠す（`titlebarAppearsTransparent` + `titleVisibility = .hidden`、または `.hiddenInset` 相当）。信号機ボタンは残す。
+  - タイトルバーを隠す（`titlebarAppearsTransparent = true` + `titleVisibility = .hidden`）。信号機ボタンは残す。
   - 初期サイズ 360x480、最小サイズ 120x100。
   - 背景色 `#1c1c1e`。
   - 背景ドラッグでウィンドウ移動（`NSWindow.isMovableByWindowBackground = true`）。操作要素（入力欄・ボタン・時刻表示・削除・追加パーツ）はクリックを優先して受け取り、ドラッグ対象外にする。

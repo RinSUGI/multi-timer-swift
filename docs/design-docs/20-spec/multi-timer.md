@@ -4,8 +4,6 @@
 
 複数タイマーの並列管理、追加、削除、上限、および空状態の扱いを定義する。
 
-一次情報源: `_archive/multi-timer-mac/src/renderer/timer.ts`（`addCard` / `removeCard` / `handleAddTimer` / `nextNewTimerNumber` / `init`）、`_archive/multi-timer-mac/docs/issues/20260705_04_multi-timers.md`、`20260705_03_timer-data-deletion.md`。
-
 ## 並列管理
 
 - タイマーは縦に並び、各々が独立してカウントダウン・通知・保存する。
@@ -34,7 +32,7 @@
 
 - タイマーの上限は 12 個。
 - 上限に達したら追加パーツを無効化し、追加操作を受け付けない。
-- この上限は UI 側とストレージ側で同じ値を使う。既存版は 2 箇所（レンダラとストレージ）で手動同期していたが、Swift 版では共有定数として 1 箇所で定義する（[10-requirements/non-functional.md](../10-requirements/non-functional.md) の NFR-08 を参照）。
+- 上限値は UI 側とストレージ側で共通の定数として 1 箇所に定義する（[10-requirements/non-functional.md](../10-requirements/non-functional.md) の NFR-08 を参照）。
 - ストレージ側でも上限を超える分は切り捨てる（保険。[30-data/persistence.md](../30-data/persistence.md) を参照）。
 
 ## タイマーの削除
@@ -57,5 +55,5 @@
 
 ## 永続化との関係
 
-- 追加は即インサート、削除は即削除、タイトル・設定時間の変更はデバウンス保存。
+- 追加は即インサート、削除は即削除。設定時間の変更（セグメント編集の確定・Clear）は即時保存、タイトル入力のみ 300ms デバウンス保存。
 - 保存・削除・読み込みは直列化する。詳細は [30-data/persistence.md](../30-data/persistence.md) を参照。

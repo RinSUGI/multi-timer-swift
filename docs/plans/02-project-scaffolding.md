@@ -4,7 +4,7 @@
 
 ## 前提
 
-- OQ-06 により SwiftPM 主体。`.xcodeproj` は作らない。
+- SwiftPM 主体。`.xcodeproj` は作らない。
 - 対応 OS 下限は macOS 13（`platforms: [.macOS(.v13)]`）。
 - ターゲット構成は `docs/plans/00-plan-overview.md` の「モジュール構成」に従う。
 
@@ -50,7 +50,7 @@
 ## ステップ 1.4 バージョン定義の置き場所
 
 - 対象: バージョン文字列（`v<version>` 表示・`.app` のバージョン）の単一定義。
-- 実装内容: 初期バージョンは既存踏襲で `1.0.4` とする（`docs/design-docs/70-packaging/build-and-distribution.md` のメタデータ踏襲）。`Constants.swift`（または専用の `Version.swift`）に `appVersion = "1.0.4"` を定義し、UI のバージョン表示とフェーズ 7 の `Info.plist` 生成が同じ値を参照できるようにする。値の更新箇所を 1 つに保つ。
+- 実装内容: `Constants.swift`（または専用の `Version.swift`）に `appVersion` を定義し、UI のバージョン表示とフェーズ 7 の `Info.plist` 生成が同じ値を参照できるようにする。値の更新箇所を 1 つに保つ（現行値は `Sources/MultiTimerCore/Constants.swift` の `appVersion` を正とする）。
 - 完了条件: バージョン文字列が単一箇所で定義されている。
 - 検証: `swift build`。
 

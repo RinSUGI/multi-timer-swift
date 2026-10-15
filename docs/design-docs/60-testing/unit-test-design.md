@@ -91,7 +91,7 @@
 | TC-State-15 | 実行中                          | Start=非活性、Stop=活性、Reset=活性                 |
 | TC-State-16 | 自然終了直後（残り=設定、黄色） | Reset=非活性                                        |
 
-## TC-Norm 正規化・パース・移行（`TimerNormalization`）
+## TC-Norm 正規化・パース・補正（`TimerNormalization`）
 
 対象: 保存データの正規化とパース。仕様は [30-data/persistence.md](../30-data/persistence.md)。
 
@@ -109,16 +109,16 @@
 | TC-Norm-08 | `configuredMs` が非数（NaN/Inf） | 0                          |
 | TC-Norm-09 | オブジェクトでない要素           | 無効として除外             |
 
-### パース・移行
+### パース・補正
 
-| ID         | 入力                               | 期待                     |
-| ---------- | ---------------------------------- | ------------------------ |
-| TC-Norm-10 | `{ timers: [有効2件] }`            | 2 件、移行なし           |
-| TC-Norm-11 | `{ timers: [有効, 無効, 有効] }`   | 無効を除外し 2 件        |
-| TC-Norm-12 | `{ timers: [13件] }`               | 先頭 12 件、移行あり     |
-| TC-Norm-13 | `id` 無し要素を含む                | 採番して移行ありフラグ   |
-| TC-Norm-14 | レガシー `{ title, configuredMs }` | 1 件配列に移行、移行あり |
-| TC-Norm-15 | 空 `{ timers: [] }`                | 0 件                     |
+| ID         | 入力                                       | 期待                     |
+| ---------- | ------------------------------------------ | ------------------------ |
+| TC-Norm-10 | `{ timers: [有効2件] }`                    | 2 件、補正なし           |
+| TC-Norm-11 | `{ timers: [有効, 無効, 有効] }`           | 無効を除外し 2 件        |
+| TC-Norm-12 | `{ timers: [13件] }`                       | 先頭 12 件、補正あり     |
+| TC-Norm-13 | `id` 無し要素を含む                        | 採番して補正ありフラグ   |
+| TC-Norm-14 | 単一オブジェクト `{ title, configuredMs }` | 1 件配列に整形、補正あり |
+| TC-Norm-15 | 空 `{ timers: [] }`                        | 0 件                     |
 
 ## TC-Number `新規タイマーN` 採番（`TimerNormalization` / UI ロジック）
 

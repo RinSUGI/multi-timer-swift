@@ -19,8 +19,8 @@
 
 ## 実施基準
 
-- **合否の基準**: 既存 Electron 版（`_archive/multi-timer-mac`）との挙動比較。
-- 差異が出た場合、仕様書（`docs/design-docs/20-spec/` 配下）と照合し、実装の不具合か仕様の記述漏れかを切り分ける。
+- **合否の基準**: 仕様書（`docs/design-docs/20-spec/` 配下）に記述された振る舞い。
+- 差異が出た場合、仕様書と照合し、実装の不具合か仕様の記述漏れかを切り分ける。
 - NF-1（メモリ）の合否判定は [backlogs/memory-footprint-measurement.md](../../backlogs/memory-footprint-measurement.md) の基準を参照する。
 
 ## 結果の記録方法

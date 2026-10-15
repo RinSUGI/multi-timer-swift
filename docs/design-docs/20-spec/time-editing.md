@@ -4,8 +4,6 @@
 
 時刻表示 `HH:MM:SS` の各セグメントを直接編集して設定時間を決める操作の仕様を定義する。
 
-一次情報源: `_archive/multi-timer-mac/src/renderer/timer.ts`（`startEditing` / `finishEditing` / `applySegmentEdit` / `clampSegmentValue`）。
-
 ## 編集の開始
 
 - 編集は非実行中のみ可能。実行中はセグメントを編集できない。
@@ -48,13 +46,13 @@
 
 ## 確定時の状態変化
 
-編集を確定（`applySegmentEdit` 相当）したとき、次を行う。
+編集を確定（`TimerModel.commitEditing`）したとき、次を行う。
 
 1. 現在の残り時間から時・分・秒を取り出し、編集したセグメントだけをクランプ後の値で置き換える。
 1. 3 桁を合成して新しいミリ秒値を得る。
 1. `remainingMs` と `configuredMs` の両方をその値にする（編集は設定時間そのものを決める操作である）。
 1. `expiredAfterCountdown = false` にする（黄色を解除する。[expired-coloring.md](expired-coloring.md) を参照）。
-1. 永続化する（即時保存。タイトルはデバウンス、確定は即時。[30-data/persistence.md](../30-data/persistence.md) を参照）。
+1. 即時保存する（タイトルはデバウンス、セグメント確定は即時。[30-data/persistence.md](../30-data/persistence.md) を参照）。
 
 ## キャンセル時の挙動
 

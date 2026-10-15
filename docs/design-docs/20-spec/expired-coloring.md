@@ -4,8 +4,6 @@
 
 カウントダウンが自然終了した後に数字を黄色で表示する条件を定義する。
 
-一次情報源: `_archive/multi-timer-mac/src/renderer/timer.ts`（`expiredAfterCountdown`）、`_archive/multi-timer-mac/docs/issues/20260705_01_colorize-time-after-finish.md`。
-
 ## 目的
 
 表示が設定時刻のままになっているとき、それが「まだ開始していない」のか「既に時間切れで自動リセットされた」のかを、色で区別できるようにする。

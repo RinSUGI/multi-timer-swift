@@ -1,11 +1,11 @@
 # フェーズ 3: 永続化 I/O・直列化・破損対応
 
-`MultiTimerStorage` にファイル入出力を実装し、結合テスト（TC-Persist）で固める。正規化・パース・移行のロジックはフェーズ 2 の `MultiTimerCore` を再利用する。
+`MultiTimerStorage` にファイル入出力を実装し、結合テスト（TC-Persist）で固める。正規化・パース・補正のロジックはフェーズ 2 の `MultiTimerCore` を再利用する。
 
 ## 前提
 
 - 仕様の正本は `docs/design-docs/30-data/persistence.md`。
-- 保存先は既存データ引き継ぎ（OQ-04）のため `~/Library/Application Support/multi-timer/timer.json`。**ディレクトリ名は `multi-timer`**（既存 Electron の `userData` と一致させる）。
+- 保存先は `~/Library/Application Support/multi-timer/timer.json`（ディレクトリ名は `multi-timer`）。
 - App Sandbox は無効前提（有効化するとパス前提が崩れる）。フェーズ 7 の `.app` 組み立てでも Sandbox は有効化しない。
 - 全ファイル操作を直列化する（`actor` を採用）。
 
@@ -15,9 +15,9 @@
 - 実装内容
   - `actor TimerStore` として全ファイル操作を直列化する（`docs/design-docs/40-architecture/technology-choices.md` の永続化方針）。
   - 初期化: 保存先ディレクトリ URL を引数で受け取れるようにする（本番は `FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)` + `multi-timer`、テストは一時ディレクトリ）。ディレクトリが無ければ作成する。
-  - `load()`: ファイルを読み、`MultiTimerCore` のパース・移行を通して `[StoredTimer]` を返す。移行が発生した場合は正規化後の内容を書き戻す。
-  - `save(_:)`（`saveTimer` 相当）: 入力を正規化し、現在のファイルを読み、`id` 一致があれば更新、無ければ末尾追加、12 件に切り詰めて書き込む。
-  - `delete(id:)`（`deleteTimer` 相当）: ファイルを読み、`id` 一致を除外し、変化があれば書き込む（無ければ何もしない）。
+  - `load()`: ファイルを読み、`MultiTimerCore` のパース・補正を通して `[StoredTimer]` を返す。補正が発生した場合は正規化後の内容を書き戻す。
+  - `save(_:)`: 入力を正規化し、現在のファイルを読み、`id` 一致があれば更新、無ければ末尾追加、12 件に切り詰めて書き込む。
+  - `delete(id:)`: ファイルを読み、`id` 一致を除外し、変化があれば書き込む（無ければ何もしない）。
   - 書き込みは JSON（`{ "timers": [...] }` 形式）。`Codable` エンコード。整形（pretty）は任意。
 - 破損・異常対応（`load()` 内）
   - ファイル無し（存在しない）: 空配列を返す。エラーにしない。
@@ -55,5 +55,5 @@
 
 - `swift test` で TC-Persist-01〜09 が全パス。
 - `TimerStore` が `actor` で直列化され、破損時に退避して空で継続する。
-- 保存先ディレクトリ名が `multi-timer` で、既存データを読める（形式・正規化がフェーズ 2 と共通）。
+- 保存先ディレクトリ名が `multi-timer` で、正規化・パースはフェーズ 2 の共通ロジックを通る。
 - BB-08/BB-09 の I/O・退避部分は自動テストで固定済み（`.app` での最終確認はフェーズ 7）。

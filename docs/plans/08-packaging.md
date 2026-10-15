@@ -1,32 +1,31 @@
 # フェーズ 7: ビルド・`.app` 組み立て・アドホック署名・DMG・配布手順書
 
-Universal ビルドから `.app` 組み立て、アドホック署名、DMG 生成までを 1 スクリプトで行い（OQ-09）、配布手順書を整備する。これが完了すると BB-01〜BB-11 を `.app` で実施できる。
+Universal ビルドから `.app` 組み立て、アドホック署名、DMG 生成までを 1 スクリプトで行い、配布手順書を整備する。これが完了すると BB-01〜BB-11 を `.app` で実施できる。
 
 ## 前提
 
 - 仕様の正本は `docs/design-docs/70-packaging/build-and-distribution.md`。
-- SwiftPM 主体（OQ-06）。`.xcodeproj` は使わない。外部ツール（`create-dmg` 等）は追加しない（`hdiutil` を使う）。
-- アイコンは既存 `icon.icns` を流用し `CFBundleIconFile` で登録（OQ-10）。
-- `_archive/` は `.gitignore` 対象のため、アイコンはトラッキング下へコピーして使う。
+- SwiftPM 主体。`.xcodeproj` は使わない。外部ツール（`create-dmg` 等）は追加しない（`hdiutil` を使う）。
+- アイコンは `AppIcon.icns` として Resources に置き、`CFBundleIconFile` で登録する。
 
 ## ステップ 7.1 アイコンと Info.plist テンプレートの用意
 
 - 対象ファイル
-  - `Sources/MultiTimerApp/Resources/AppIcon.icns`（`_archive/multi-timer-mac/build/icon.icns` をコピー。トラッキング下に置く）
-  - `Sources/MultiTimerApp/Resources/Info.plist`（テンプレート、`.app` 組み立て時に使用）
+  - `Sources/MultiTimerApp/Resources/AppIcon.icns`（デザインを起こしたアイコンの `.icns`。Resources にトラッキング下で置く）
+  - `scripts/Info.plist`（テンプレート、`.app` 組み立て時に `Contents/Info.plist` へコピー）
 - Info.plist の値（`docs/design-docs/70-packaging/build-and-distribution.md` のメタデータ）
   - `CFBundleIdentifier`: `com.beyondsight.multi-timer`
   - `CFBundleName` / `CFBundleDisplayName`: `Multi Timer`
-  - `CFBundleShortVersionString`: `1.0.4`（`Constants` の `appVersion` と一致させる）
+  - `CFBundleShortVersionString`: `Constants` の `appVersion` と同一値
   - `CFBundleVersion`: ビルド番号（`1` 起点でよい）
   - `CFBundleIconFile`: `AppIcon`（拡張子なしで参照。`AppIcon.icns` を `.app/Contents/Resources/` へ配置）
   - `LSApplicationCategoryType`: `public.app-category.productivity`
   - `LSMinimumSystemVersion`: `13.0`
   - `NSHumanReadableCopyright`: `Copyright © 2026 BeyondSight`
   - `CFBundlePackageType`: `APPL`、`CFBundleExecutable`: 実行ファイル名
-  - App Sandbox は有効化しない（OQ-04 の保存先前提を守るため）。
+  - App Sandbox は有効化しない（保存先パスの前提を守るため）。
 - 完了条件: アイコンと Info.plist テンプレートがトラッキング下に揃う。
-- 検証: ファイル存在確認。`plutil -lint Sources/MultiTimerApp/Resources/Info.plist`。
+- 検証: ファイル存在確認。`plutil -lint scripts/Info.plist`。
 
 ## ステップ 7.2 ビルド・パッケージングスクリプト
 
@@ -42,19 +41,19 @@ Universal ビルドから `.app` 組み立て、アドホック署名、DMG 生�
   - 出力先は `dist/`。`build/`（`.gitignore` 対象）や `.build/` に成果物を散らばらせない。
   - `shellcheck` / `shfmt` を通す（`docs/DOCUMENTATION_GUIDE.md`）。
 - 出力先の除外
-  - `.gitignore` に `dist/` を追加する（DMG・`.app` を誤ってコミットしない。`*.app` は既存 ignore にあるが `*.dmg` は無いため `dist/` 単位で除外する）。
+  - `.gitignore` に `dist/` を追加する（DMG・`.app` を誤ってコミットしない）。
 - 完了条件: `./scripts/build-app.sh` が成功し、`dist/` に `.app` と DMG、チェックサムが生成される。生成 `.app` がダブルクリックで起動する。
 - 検証: `./scripts/build-app.sh` 実行。`open "dist/Multi Timer.app"` で起動確認。`./scripts/agent-docs-check.sh`（シェルスクリプトと `.gitignore` 変更のため）。
 
 ## ステップ 7.3 配布手順書の整備
 
-- 対象ファイル: `docs/インストール手順.md`（新規。既存 `_archive/multi-timer-mac/docs/インストール手順.md` に相当する内容を Swift 版向けに作る）
+- 対象ファイル: `docs/インストール手順.md`
 - 内容（`docs/design-docs/70-packaging/build-and-distribution.md`）
   - DMG からのインストール（Applications へドラッグ）。
   - 初回起動時の Gatekeeper 回避（未署名・アドホック署名のため）。
     - GUI 手順: システム設定 → プライバシーとセキュリティ →「このまま開く」。
     - ターミナル手順: `xattr -dr com.apple.quarantine "/Applications/Multi Timer.app"`。
-  - 通知を有効にする手順（`UNUserNotificationCenter` の許可、既存 README「macOS の通知を有効にする」相当）。
+  - 通知を有効にする手順（`UNUserNotificationCenter` の許可）。
   - 配布時に DMG の SHA-256 チェックサムを添える旨。
 - 完了条件: 開発未経験のメンバーが手順書だけでインストール・初回起動・通知有効化まで到達できる。
 - 検証: `./scripts/agent-docs-check.sh`。

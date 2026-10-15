@@ -1,6 +1,6 @@
 {
   "project": "multi-timer-swift",
-  "description": "Swift ネイティブ版 Multi Timer 実装の進捗管理。docs/plans/ の各プランのステップと単体・ブラックボックステストを追跡する。",
+  "description": "Multi Timer 実装の進捗管理。docs/plans/ の各プランのステップと単体・ブラックボックステストを追跡する。",
   "sourceOfTruth": "docs/design-docs/",
   "planIndex": "docs/plans/README.md",
   "statusValues": ["pending", "in_progress", "completed", "blocked"],
@@ -8,27 +8,27 @@
   "phases": [
     {
       "id": "phase-0",
-      "title": "OQ 決定の設計書反映（実装前の先行タスク）",
+      "title": "決定事項の設計書反映（実装前の先行タスク）",
       "plan": "docs/plans/01-doc-reconciliation.md",
       "status": "completed",
       "tasks": [
         {
           "id": "0.1",
-          "title": "保存タイミングを即時保存へ更新（OQ-05）",
+          "title": "保存タイミングを本文に反映（タイトルはデバウンス・その他は即時）",
           "status": "completed",
           "verify": "./scripts/agent-docs-check.sh",
           "tests": []
         },
         {
           "id": "0.2",
-          "title": "対応 OS 下限を macOS 13 に確定（OQ-01）",
+          "title": "対応 OS 下限を macOS 13 に明記",
           "status": "completed",
           "verify": "./scripts/agent-docs-check.sh",
           "tests": []
         },
         {
           "id": "0.3",
-          "title": "技術選定の「計時」「ビルド」を採用として書き下す（OQ-06/OQ-07）",
+          "title": "技術選定の「計時」「ビルド」を採用として書き下す",
           "status": "completed",
           "verify": "./scripts/agent-docs-check.sh",
           "tests": []
@@ -71,7 +71,7 @@
         },
         {
           "id": "1.4",
-          "title": "バージョン定義の単一化（appVersion = 1.0.4）",
+          "title": "バージョン定義の単一化（appVersion を Constants.swift に集約）",
           "status": "completed",
           "verify": "swift build",
           "tests": []
@@ -160,7 +160,7 @@
         },
         {
           "id": "2.6",
-          "title": "正規化・パース・移行・採番 TimerNormalization",
+          "title": "正規化・パース・補正・採番 TimerNormalization",
           "status": "completed",
           "verify": "swift test --filter TimerNormalization",
           "tests": [
@@ -399,7 +399,7 @@
       "tasks": [
         {
           "id": "8.1",
-          "title": "バックログの置き場所を作る（OQ-02/OQ-11）",
+          "title": "バックログの置き場所を作る（メモリ実測・ウィンドウ非表示時計時継続）",
           "status": "completed",
           "verify": "./scripts/agent-docs-check.sh",
           "tests": []
@@ -436,7 +436,7 @@
       { "id": "BB-09", "title": "破損耐性", "status": "pending" },
       { "id": "BB-10", "title": "ウィンドウ・レイアウト", "status": "pending" },
       { "id": "BB-11", "title": "通知許可", "status": "pending" },
-      { "id": "NF-1", "title": "メモリ（既存版より 1 桁小さい）", "status": "pending" },
+      { "id": "NF-1", "title": "メモリ（アイドル常駐で 30MB 以下）", "status": "pending" },
       { "id": "NF-2", "title": "CPU（実用上無視できる）", "status": "pending" },
       { "id": "NF-3", "title": "起動（体感即時）", "status": "pending" }
     ]

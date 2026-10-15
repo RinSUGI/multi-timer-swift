@@ -2,7 +2,7 @@
 
 ## この文書で決めること
 
-Swift 版のテストの種類、対象、責務分担、合否の考え方を定義する。既存アプリにはテストが無かったため、本プロジェクトで新たに導入する。
+テストの種類、対象、責務分担、合否の考え方を定義する。
 
 ## テストの種類と対象
 
@@ -20,14 +20,14 @@ Swift 版のテストの種類、対象、責務分担、合否の考え方を�
 
 ## 自動テストの範囲
 
-- 対象: `MultiTimerCore` 全体と、永続化の正規化・パース・移行。
+- 対象: `MultiTimerCore` 全体と、永続化の正規化・パース。
 - 非対象（自動テストしない）: SwiftUI ビューの描画、実際の通知表示、実際の音再生、ウィンドウのリサイズ・ドラッグ。これらはブラックボックスで確認する。
 - 計時（tick）は、時刻を注入できる設計にして単体テスト可能にする（実時間待ちに依存しない。[unit-test-design.md](unit-test-design.md) を参照）。
 
 ## 合否の考え方
 
 - 単体テスト: すべて成功することを完了条件に含める。
-- ブラックボックステスト: [blackbox-test-cases.md](blackbox-test-cases.md) の全ケースが期待どおりであること。既存アプリとの挙動比較を基準にする。
+- ブラックボックステスト: [blackbox-test-cases.md](blackbox-test-cases.md) の全ケースが期待どおりであること。仕様書（[20-spec/](../20-spec/) 配下）を判定基準にする。
 - 非機能（メモリ・CPU・起動時間）は [10-requirements/non-functional.md](../10-requirements/non-functional.md) の測定方法で確認する。
 
 ## テスト容易性のための設計要求
@@ -40,9 +40,9 @@ Swift 版のテストの種類、対象、責務分担、合否の考え方を�
 
 ## テストが担保する主なリグレッション
 
-既存で作り込まれた微妙な挙動を、テストで固定する。
+見落としやすい細かな挙動を、テストで固定する。
 
 - 自動リセット後の黄色表示と、手動リセットでの非黄色（[20-spec/expired-coloring.md](../20-spec/expired-coloring.md)）。
 - ボタン活性条件、とくに Reset の条件（[20-spec/timer-behavior.md](../20-spec/timer-behavior.md)）。
-- 正規化・クランプ・上限切り捨て・レガシー移行（[30-data/persistence.md](../30-data/persistence.md)）。
+- 正規化・クランプ・上限切り捨て・入力形式補正（[30-data/persistence.md](../30-data/persistence.md)）。
 - `ceil` による秒表示の切り上げ（[20-spec/time-editing.md](../20-spec/time-editing.md)）。

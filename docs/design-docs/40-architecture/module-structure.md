@@ -2,7 +2,7 @@
 
 ## この文書で決めること
 
-Swift 版のモジュール分割方針と、ディレクトリ・ファイル構成の指針を示す。単体テスト容易性（NFR-07）を満たす分離を主眼とする。
+モジュール分割方針と、ディレクトリ・ファイル構成の指針を示す。単体テスト容易性（NFR-07）を満たす分離を主眼とする。
 
 ## 分割方針
 
@@ -19,18 +19,17 @@ Swift 版のモジュール分割方針と、ディレクトリ・ファイル�
 | Platform             | 通知、音、ウィンドウ設定                 | UserNotifications / AVFoundation / AppKit | 手動・結合                                          |
 | UI                   | SwiftUI ビュー、状態束縛                 | SwiftUI                                   | ブラックボックス                                    |
 
-## 構成案
+## 構成
 
 具体的なターゲット名やファイル名は実装時に調整してよい。責務分割の指針として示す。
 
 ```text
-（リポジトリ直下に Swift プロジェクトを新設）
 Sources/
   MultiTimerCore/          # 純粋ロジック（UI/OS 非依存、テスト対象）
     TimeConversion.swift   # ミリ秒 ⇄ 時分秒、整形、クランプ
     TimerModel.swift       # 1 タイマーの状態と遷移（start/stop/reset/clear/tick）
     SegmentEditing.swift   # セグメント編集の確定・クランプ規則
-    TimerNormalization.swift # 保存データの正規化・パース・移行・採番
+    TimerNormalization.swift # 保存データの正規化・パース・採番
     Constants.swift        # 最大個数/最大文字数/最大時間などの共有定数
   MultiTimerApp/           # アプリ本体
     Persistence/           # JSON 保存（直列化・破損対応）
@@ -49,14 +48,9 @@ Tests/
 
 ## 共有定数
 
-- 最大タイマー数（12）、最大タイトル長（50）、最大設定時間（`99:59:59`）は `Constants.swift` に 1 箇所で定義し、UI・Persistence の双方から参照する。
-- 既存版はこの上限を 2 ファイルで手動同期していた。Swift 版では二重管理をやめる（NFR-08）。
+- 最大タイマー数（12）、最大タイトル長（50）、最大設定時間（`99:59:59`）は `Constants.swift` に 1 箇所で定義し、UI・Persistence の双方から参照する（NFR-08）。
 
 ## テストとの対応
 
 - `MultiTimerCore` の各ファイルが単体テストの主対象になる。テスト設計は [60-testing/unit-test-design.md](../60-testing/unit-test-design.md) を参照。
 - OS 機能ラッパはプロトコルで抽象化し、テストではダミー実装に差し替える。
-
-## Open Questions
-
-- OQ-06（再掲）Xcode プロジェクトか SwiftPM 主体か。上記の Sources/Tests 構成は SwiftPM を想定した一案であり、Xcode プロジェクトでも同等のグループ分けにする。決定は [technology-choices.md](technology-choices.md) に記載する。

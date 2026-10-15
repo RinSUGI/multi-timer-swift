@@ -54,7 +54,7 @@
 - 仕様: `docs/design-docs/20-spec/time-editing.md` の「確定時の状態変化」。
 - 実装内容
   - 確定合成関数: 現在の**残り時間**から時分秒を取り出し（`TimeConversion` を使用）、編集したセグメントだけをクランプ後の値で置換し、3 桁を合成して新しいミリ秒を返す純粋関数。
-  - `TimerModel` 側に確定処理を用意し、`remainingMs` と `configuredMs` の**両方**を新値にする。同時に `expiredAfterCountdown = false`（黄色解除）。保存トリガ（即時保存、OQ-05）はビューモデル／App 層で扱うため、ここでは状態変化のみを担い、変化を呼び出し側へ通知できる形にする。
+  - `TimerModel` 側に確定処理を用意し、`remainingMs` と `configuredMs` の**両方**を新値にする。同時に `expiredAfterCountdown = false`（黄色解除）。保存トリガ（即時保存）はビューモデル／App 層で扱うため、ここでは状態変化のみを担い、変化を呼び出し側へ通知できる形にする。
 - テスト: TC-Edit-01〜04。
   - TC-Edit-01（残り 00:00:00 に分 "5"→00:05:00）。
   - TC-Edit-02（残り 00:05:00 に時 "1"→01:05:00、他桁保持）。**残り時間基準の合成**を固定する。
@@ -86,17 +86,17 @@
 - 完了条件: TC-State-01〜16 が全パス。終了処理の発火回数がダミーで検証できる。
 - 検証: `swift test`（該当テスト型フィルタ）。
 
-## ステップ 2.6 正規化・パース・移行・採番（TC-Norm-01〜15 / TC-Number-01〜05）
+## ステップ 2.6 正規化・パース・補正・採番（TC-Norm-01〜15 / TC-Number-01〜05）
 
 - 対象ファイル: `Sources/MultiTimerCore/TimerNormalization.swift`
 - 仕様: `docs/design-docs/30-data/persistence.md`、採番は `docs/design-docs/20-spec/multi-timer.md`。
 - 実装内容
   - 保存レコード型（例: `struct StoredTimer: Codable { id; title; configuredMs }`）を定義。
   - 正規化（`normalizeTimer` 相当）: オブジェクトでない要素は無効（`nil`）とする。`id` は非空文字列ならそのまま、それ以外は新規 UUID を採番する。`title` は文字列なら先頭 50 文字に切り詰め、それ以外は空文字にする。`configuredMs` は有限数なら `floor` して `[0, maxConfiguredMs]` にクランプし、それ以外は 0 にする。
-  - パース・移行（`parseTimers` 相当）: 正常形式 `{ timers: [...] }` は各要素正規化・無効除外・先頭 12 件切り詰め。レガシー形式 `{ title, configuredMs }` 単一オブジェクトは 1 件配列へ移行。`migrated = true` の条件（12 件超・`id` 補完・レガシー）を返す。JSON の柔軟な入力を扱うため、`JSONSerialization` 由来の `Any` またはカスタムデコードで「非数値型」「オブジェクトでない要素」を判定できるようにする。
+  - パース・補正（`parseTimers` 相当）: 正常形式 `{ timers: [...] }` は各要素正規化・無効除外・先頭 12 件切り詰め。単一オブジェクト形式 `{ title, configuredMs }` は 1 件配列へ整形する。「読み込み内容から書き戻しが必要になった」ことを示す `ParseResult.migrated`（12 件超・`id` 補完・単一オブジェクト形式のいずれかで真）を返す。JSON の柔軟な入力を扱うため、`JSONSerialization` 由来の `Any` またはカスタムデコードで「非数値型」「オブジェクトでない要素」を判定できるようにする。
   - 採番（`nextNewTimerNumber` 相当）: 既存タイトルのうち `新規タイマー<数字>` に一致する最大値 + 1。一致が無ければ 1。
 - テスト
-  - TC-Norm-01〜15（正規化 9 件・パース/移行 6 件）。TC-Norm-04（title 数値型→空）、TC-Norm-07（小数→floor）、TC-Norm-08（NaN/Inf→0）、TC-Norm-09（非オブジェクト→除外）、TC-Norm-12（13 件→先頭 12・移行あり）、TC-Norm-13（id 無し→採番・移行あり）、TC-Norm-14（レガシー→1 件・移行あり）を必ず含める。
+  - TC-Norm-01〜15（正規化 9 件・パース/補正 6 件）。TC-Norm-04（title 数値型→空）、TC-Norm-07（小数→floor）、TC-Norm-08（NaN/Inf→0）、TC-Norm-09（非オブジェクト→除外）、TC-Norm-12（13 件→先頭 12・補正あり）、TC-Norm-13（id 無し→採番・補正あり）、TC-Norm-14（単一オブジェクト→1 件・補正あり）を必ず含める。
   - TC-Number-01〜05。TC-Number-03（最大+1）、TC-Number-05（`新規タイマーA` は不一致→1）を含める。
 - 完了条件: TC-Norm-01〜15、TC-Number-01〜05 が全パス。
 - 検証: `swift test`（該当テスト型フィルタ）。

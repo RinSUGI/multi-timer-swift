@@ -5,7 +5,7 @@ Core・Storage・Platform・UI を 1 つのアプリとして結線し、暖機�
 ## 前提
 
 - `@main` は `MultiTimerApp` の実行ファイルターゲットに置く。
-- ウィンドウを閉じても常駐（OQ-11、既存踏襲）。
+- ウィンドウを閉じても常駐する（`docs/design-docs/50-ui/layout-and-style.md` の OQ-11 決定）。
 - 仕様は `docs/design-docs/50-ui/layout-and-style.md`（ウィンドウを閉じたときの挙動）と `docs/design-docs/20-spec/notification-and-sound.md`（暖機）。
 
 ## ステップ 6.1 App エントリと依存の注入
@@ -42,7 +42,7 @@ Core・Storage・Platform・UI を 1 つのアプリとして結線し、暖機�
 - 仕様: `docs/design-docs/50-ui/layout-and-style.md`。
 - 実装内容
   - ウィンドウを閉じてもアプリは終了しない（Dock に残る）。終了は `Cmd+Q`。
-  - Dock アイコンのクリックでウィンドウを再表示する。表示は保存データから復元するため、閉じる前に実行中だったタイマーは失われる（終了通知も出ない）。これは既存踏襲。
+  - Dock アイコンのクリックでウィンドウを再表示する。表示は保存データから復元するため、閉じる前に実行中だったタイマーは失われる（終了通知も出ない）。
   - 最小限のメインメニューを備え、`Cmd+W` / `Cmd+Q`、入力欄でのコピー・ペーストなど標準ショートカットが効くようにする。
 - 完了条件: 閉じても常駐し、Dock 再表示で復元される。標準ショートカットが効く。
 - 検証: `swift run` で手動確認。最終確認は BB-10-5（フェーズ 7）。
