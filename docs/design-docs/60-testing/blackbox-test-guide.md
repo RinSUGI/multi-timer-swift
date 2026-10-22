@@ -8,7 +8,7 @@
 
 | 区分         | ケース                                    | 正本                                                                  |
 | ------------ | ----------------------------------------- | --------------------------------------------------------------------- |
-| 機能テスト   | BB-01 〜 BB-11                            | [blackbox-test-cases.md](blackbox-test-cases.md)                      |
+| 機能テスト   | BB-01 〜 BB-12                            | [blackbox-test-cases.md](blackbox-test-cases.md)                      |
 | 非機能テスト | NF-1（メモリ）、NF-2（CPU）、NF-3（起動） | [blackbox-test-cases.md](blackbox-test-cases.md) の「非機能の確認」節 |
 
 ## 実施環境

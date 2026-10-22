@@ -33,6 +33,7 @@ macOS 向けのマルチカウントダウンタイマーアプリ Multi Timer�
 - [20-spec/expired-coloring.md](20-spec/expired-coloring.md) — 時間切れ後の黄色表示ルール
 - [20-spec/notification-and-sound.md](20-spec/notification-and-sound.md) — 通知とチャイム音
 - [20-spec/multi-timer.md](20-spec/multi-timer.md) — 複数タイマーの追加・削除・上限
+- [20-spec/reordering.md](20-spec/reordering.md) — ドラッグによるタイマーの並び替え
 - [30-data/persistence.md](30-data/persistence.md) — 永続化・正規化・直列化・破損対応
 - [40-architecture/technology-choices.md](40-architecture/technology-choices.md) — 技術選定
 - [40-architecture/module-structure.md](40-architecture/module-structure.md) — モジュール・ディレクトリ構成
