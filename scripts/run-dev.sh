@@ -32,6 +32,8 @@ codesign --force --deep --sign - "${APP_BUNDLE}" >/dev/null 2>&1 || true
 
 echo "==> Launching"
 # Relaunch cleanly each time so code changes are picked up.
-pkill -f "${APP_BUNDLE}/Contents/MacOS/${BUNDLE_NAME}" 2>/dev/null || true
+# pkill -f takes a regex; escape it so the "(dev)" in the path matches literally.
+EXEC_PATTERN=$(printf '%s' "${APP_BUNDLE}/Contents/MacOS/${BUNDLE_NAME}" | sed 's/[][\\.*^$()+?{}|]/\\&/g')
+pkill -f "${EXEC_PATTERN}" 2>/dev/null || true
 open -n "${APP_BUNDLE}"
 echo "==> Launched ${APP_BUNDLE}"
