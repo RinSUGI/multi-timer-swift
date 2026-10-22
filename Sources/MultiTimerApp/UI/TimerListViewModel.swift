@@ -49,6 +49,15 @@ final class TimerListViewModel: ObservableObject {
         Task { await store.delete(id: id) }
     }
 
+    func moveTimer(id: String, toIndex: Int) {
+        guard let from = timers.firstIndex(where: { $0.id == id }) else { return }
+        let moved = TimerOrdering.moved(timers, from: from, to: toIndex)
+        let ids = moved.map(\.id)
+        guard ids != timers.map(\.id) else { return }
+        timers = moved
+        Task { await store.reorder(ids: ids) }
+    }
+
     // MARK: - Actions
 
     func start(_ id: String) {

@@ -12,12 +12,12 @@
 
 ## レイヤ
 
-| レイヤ               | 責務                                     | UI/OS 依存                                | テスト                                              |
-| -------------------- | ---------------------------------------- | ----------------------------------------- | --------------------------------------------------- |
-| Core（純粋ロジック） | 時刻変換、タイマー状態遷移、正規化、採番 | なし                                      | 単体テスト対象                                      |
-| Persistence          | JSON 読み書き、直列化、破損対応          | FileManager                               | 一部単体テスト（正規化・パースは Core、I/O は結合） |
-| Platform             | 通知、音、ウィンドウ設定                 | UserNotifications / AVFoundation / AppKit | 手動・結合                                          |
-| UI                   | SwiftUI ビュー、状態束縛                 | SwiftUI                                   | ブラックボックス                                    |
+| レイヤ               | 責務                                               | UI/OS 依存                                | テスト                                              |
+| -------------------- | -------------------------------------------------- | ----------------------------------------- | --------------------------------------------------- |
+| Core（純粋ロジック） | 時刻変換、タイマー状態遷移、正規化、採番、並び替え | なし                                      | 単体テスト対象                                      |
+| Persistence          | JSON 読み書き、直列化、破損対応                    | FileManager                               | 一部単体テスト（正規化・パースは Core、I/O は結合） |
+| Platform             | 通知、音、ウィンドウ設定                           | UserNotifications / AVFoundation / AppKit | 手動・結合                                          |
+| UI                   | SwiftUI ビュー、状態束縛                           | SwiftUI                                   | ブラックボックス                                    |
 
 ## 構成
 
@@ -30,11 +30,12 @@ Sources/
     TimerModel.swift       # 1 タイマーの状態と遷移（start/stop/reset/clear/tick）
     SegmentEditing.swift   # セグメント編集の確定・クランプ規則
     TimerNormalization.swift # 保存データの正規化・パース・採番
+    TimerOrdering.swift    # 並び替えの挿入位置計算・id 列による並べ替え
     Constants.swift        # 最大個数/最大文字数/最大時間などの共有定数
   MultiTimerApp/           # アプリ本体
     Persistence/           # JSON 保存（直列化・破損対応）
     Platform/              # 通知・音・ウィンドウ設定のラッパ
-    UI/                    # SwiftUI ビュー
+    UI/                    # SwiftUI ビュー（並び替えのドラッグハンドル含む）
     App.swift              # エントリポイント
 Tests/
   MultiTimerCoreTests/     # Core の単体テスト

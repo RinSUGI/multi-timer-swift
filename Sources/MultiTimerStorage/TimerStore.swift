@@ -63,6 +63,14 @@ public actor TimerStore {
         }
     }
 
+    public func reorder(ids: [String]) {
+        let timers = load()
+        let sorted = TimerOrdering.reordered(timers, by: ids, id: \.id)
+        if sorted != timers {
+            writeTimers(sorted)
+        }
+    }
+
     private func applyNormalization(_ timer: StoredTimer) -> StoredTimer {
         let id = timer.id.isEmpty ? UUID().uuidString : timer.id
         let title = String(timer.title.prefix(Constants.maxTitleLength))

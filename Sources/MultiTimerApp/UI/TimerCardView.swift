@@ -6,6 +6,9 @@ struct TimerCardView: View {
     @Environment(\.vmin) private var vmin
     @Environment(\.compactButtons) private var compactButtons
     let model: TimerModel
+    var onDragChanged: (CGFloat) -> Void = { _ in }
+    var onDragEnded: () -> Void = {}
+    @State private var handleActive = false
 
     var body: some View {
         let timeFontSize = ScaledSize.timeFont(vmin: vmin)
@@ -28,6 +31,19 @@ struct TimerCardView: View {
     @ViewBuilder
     private func titleRow(fontSize: Double, padH: Double) -> some View {
         HStack(spacing: 0) {
+            Image(systemName: "line.3.horizontal")
+                .font(.system(size: fontSize * 0.9, weight: .bold))
+                .foregroundColor(.white.opacity(handleActive ? 0.6 : 0.35))
+                .frame(width: fontSize * 1.4, height: fontSize * 1.4)
+                .overlay(DragHandle(
+                    onChanged: onDragChanged,
+                    onEnded: onDragEnded,
+                    onHoverChanged: { handleActive = $0 }
+                ))
+                .accessibilityLabel("並び替え")
+
+            Spacer(minLength: 0)
+
             TextField("タイトル", text: titleBinding)
                 .font(.system(size: fontSize, weight: .regular, design: .rounded))
                 .foregroundColor(.white.opacity(0.85))
