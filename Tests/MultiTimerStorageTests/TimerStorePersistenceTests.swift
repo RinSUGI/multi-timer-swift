@@ -109,4 +109,36 @@ final class TimerStorePersistenceTests: XCTestCase {
         let ids = Set(loaded.map { $0.id })
         XCTAssertEqual(ids.count, loaded.count, "ID 重複があってはならない")
     }
+
+    // TC-Persist-10: reorder 後に読み込むと新しい順で復元され、内容は変わらない
+    func testTC_Persist_10_Reorder() async {
+        let a = StoredTimer(id: "A", title: "a", configuredMs: 1_000)
+        let b = StoredTimer(id: "B", title: "b", configuredMs: 2_000)
+        let c = StoredTimer(id: "C", title: "c", configuredMs: 3_000)
+        for t in [a, b, c] { await store.save(t) }
+        await store.reorder(ids: ["C", "A", "B"])
+        let loaded = await store.load()
+        XCTAssertEqual(loaded, [c, a, b])
+    }
+
+    // TC-Persist-11: 同じ並び順で reorder してもファイルを書き換えない
+    func testTC_Persist_11_ReorderSameOrderDoesNotWrite() async throws {
+        for id in ["A", "B", "C"] { await store.save(StoredTimer(id: id, title: id, configuredMs: 0)) }
+        let file = tempDir.appendingPathComponent("timer.json")
+        let past = Date(timeIntervalSince1970: 1_000_000)
+        try FileManager.default.setAttributes([.modificationDate: past], ofItemAtPath: file.path)
+        await store.reorder(ids: ["A", "B", "C"])
+        let mtime = try FileManager.default.attributesOfItem(atPath: file.path)[.modificationDate] as? Date
+        XCTAssertEqual(mtime, past)
+    }
+
+    // TC-Persist-12: reorder の後に同一 id を再保存しても並び順を保つ
+    func testTC_Persist_12_SaveAfterReorderKeepsOrder() async {
+        for id in ["A", "B", "C"] { await store.save(StoredTimer(id: id, title: id, configuredMs: 0)) }
+        await store.reorder(ids: ["C", "A", "B"])
+        await store.save(StoredTimer(id: "A", title: "updated", configuredMs: 5_000))
+        let loaded = await store.load()
+        XCTAssertEqual(loaded.map(\.id), ["C", "A", "B"])
+        XCTAssertEqual(loaded[1].title, "updated")
+    }
 }

@@ -43,6 +43,7 @@
   - macOS 13 の SwiftUI にはスクロール位置を連続的に操作する API が無いため、ハンドルの `NSView` から `enclosingScrollView` で SwiftUI の `ScrollView` を支える `NSScrollView` を取得し、ドラッグ中に端の領域にいるあいだ、約 60Hz の周期でクリップビューの表示位置をずらす（`contentView.scroll(to:)` + `reflectScrolledClipView(_:)`）。
   - 縦移動量はウィンドウ座標ではなくリストのコンテンツ座標で測る。これにより、自動スクロールしても掴んだカードがポインタの下に留まる。
   - `enclosingScrollView` が取得できない場合は、`ScrollViewProxy.scrollTo(_:anchor:)` で隣のカードへ 1 枚ずつスクロールする方式に切り替える。どちらを採るかは実装時の動作確認で決め、本書に追記する。
+  - 実装時の動作確認の結果: `enclosingScrollView` で取得できたため、こちらを採用した。SwiftUI の `NSScrollView` は flipped で、透明タイトルバーのぶん上に `contentInsets.top`（32pt）が付くため、スクロール範囲は `-contentInsets.top` 〜 `ドキュメント高 - 表示高 + contentInsets.bottom` とする。
 - 性能: ドラッグ中の再描画は掴んだカードのオフセットと他カードの移動に限る。計時の周期タイマーには手を入れない（NFR-02）。
 
 ## 計時（tick）
